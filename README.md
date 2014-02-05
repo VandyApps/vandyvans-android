@@ -3,7 +3,7 @@ Vandy Vans
 
 Vandy Vans is an open-source Android project created by [Vanderbilt University](http://vanderbilt.edu) students through a student organization called [VandyApps](https://www.facebook.com/VandyMobile).
 
-The purpose of the app is to provide a fast, native way for Vanderbilt students to access the van schedule as well as a live map of the vans' locations on their iPhones.
+The purpose of the app is to provide a fast, native way for Vanderbilt students to access the van schedule as well as a live map of the vans' locations on their Android phones.
 
 ## Credits
 
