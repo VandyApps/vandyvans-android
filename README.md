@@ -7,7 +7,7 @@ The purpose of the app is to provide a fast, native way for Vanderbilt students 
 
 ## Credits
 
-Vandy Vans for Android was created by [Seth Friedman](https://github.com/sethfri) and [Jonathan Osheroff](https://github.com/josheroff) and inspired by Seth's original [Vandy Vans for iOS](github.com/VandyApps/vandyvans-ios).
+Vandy Vans for Android was created by [Seth Friedman](https://github.com/sethfri), inspired by the original [Vandy Vans for iOS](github.com/VandyApps/vandyvans-ios).
 
 The graphic design for the project was done by [Fletcher Young](http://vandycommodore.deviantart.com/).
 
