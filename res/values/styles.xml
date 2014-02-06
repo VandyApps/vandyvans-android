@@ -17,4 +17,12 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
+    <style name="detail_page_route_label">
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <color name="light_gold">#ffffdc</color>
+    <color name="white">#ffffff</color>
+    <color name="dark_gold">#B69000</color>
+
 </resources>

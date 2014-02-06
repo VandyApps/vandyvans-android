@@ -6,5 +6,23 @@
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>
-
+    
+    <string name="blank">lorem</string>
+    
+    <string name="map_label">Map</string>
+    <string name="stops_label">Stops</string>
+    <string name="route_blue">Blue</string>
+    <string name="route_red">Red</string>
+    <string name="route_green">Green</string>
+    
+    <string name="reminders_label">Reminders</string>
+    <string name="reminders_explanation">Turn on reminders to be alerted when the next van is close-by. These will be turned off automatically after you get the reminder.</string>
+    
+    <string name="about">About</string>
+    <string name="report_bug">Report a Bug</string>
+    <string name="send_feedback">Send Feedback</string>
+    <string name="attribution">Attribution</string>
+    
+    <string name="created_by">CREATED BY:</string>
+    <string name="graphics_design">GRAPHIC DESIGN BY:</string>
 </resources>
