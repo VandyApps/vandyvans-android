@@ -33,15 +33,15 @@ public final class Global extends android.app.Application {
      * VandyVansClient Singleton provides the hook for performing http
      * request to the vandyvans.com API.
      */
-    private static Handler sVandyVansClient = null;
     public static Handler vandyVansClient() { return sVandyVansClient; }
+    private static Handler sVandyVansClient = null;
     
     /**
      * SyncromaticsClient Singleton provides the hook for performing
      * http request to http://api.syncromatics.com/.
      */
-    private static Handler sSyncromatics = null;
     public static Handler syncromaticsClient() { return sSyncromatics; }
+    private static Handler sSyncromatics = null;
     
     @Override
     public void onCreate() {
@@ -208,6 +208,15 @@ public final class Global extends android.app.Application {
         }
     }
     
+    public static final class Vans {
+        public final List<Van> vans;
+        public Vans(List<Van> _vans) {
+            vans = _vans;
+        }
+    }
+    
+    
+    
     private static final class SyncromaticsClient implements Handler.Callback {
 
         private static final String LOG_TAG = "SyncromaticsClient";
@@ -256,6 +265,10 @@ public final class Global extends android.app.Application {
                                     obj.get(Van.TAG_LATS).getAsDouble(), 
                                     obj.get(Van.TAG_LOND).getAsDouble())));
                 }
+                
+                reader.close();
+                requester.sendMessage(requester.obtainMessage(0, new Vans(result)));
+                
             } catch (Exception e) {
                 Log.e(LOG_TAG, "Failed to get Vans for Route.");
                 Log.e(LOG_TAG, "URL: " + buffer.toString());
@@ -263,8 +276,9 @@ public final class Global extends android.app.Application {
             }
             return true;
         }
-        
+        // http://api.syncromatics.com/Route/745/Stop/263473/Arrivals?api_key=a922a34dfb5e63ba549adbb259518909
         private boolean arrivalTimes(Handler requester, Stop stop) {
+            
             return true;
         }
     }
