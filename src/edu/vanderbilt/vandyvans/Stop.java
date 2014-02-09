@@ -16,22 +16,22 @@ public final class Stop {
             double _lat,
             double _lon,
             int    _rtpi) {
-        id = _id;
-        name = _name;
-        image = _image;
-        latitude = _lat;
+        id        = _id;
+        name      = _name;
+        image     = _image;
+        latitude  = _lat;
         longitude = _lon;
-        rtpi = _rtpi;
+        rtpi      = _rtpi;
     }
     
     @Override
     public String toString() { return name; }
     
-    public static final String TAG_ID = "ID";
+    public static final String TAG_ID    = "ID";
     public static final String TAG_IMAGE = "Image";
-    public static final String TAG_LAT = "Latitude";
-    public static final String TAG_LON = "Longitude";
-    public static final String TAG_NAME = "Name";
-    public static final String TAG_RTPI = "RtpiNumber";
+    public static final String TAG_LAT   = "Latitude";
+    public static final String TAG_LON   = "Longitude";
+    public static final String TAG_NAME  = "Name";
+    public static final String TAG_RTPI  = "RtpiNumber";
 
 }
