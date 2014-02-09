@@ -11,10 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 
-final public class StopsFragment extends Fragment implements OnItemClickListener {
+public final class StopsFragment extends Fragment implements OnItemClickListener {
 
     static List<Stop> stops = Arrays.asList(
             buildSimpleStop(263473, "Branscomb Quad"),
@@ -48,10 +48,18 @@ final public class StopsFragment extends Fragment implements OnItemClickListener
         tmp2.add(buildSimpleStop(-1, "Other Stops"));
         
         ListView v = (ListView) getView().findViewById(R.id.listView1);
-        v.setAdapter(new ArrayAdapter<Stop>(
-                getActivity(),
-                R.layout.simple_text,
-                tmp2));
+        
+        v.setAdapter(ArrayAdapterBuilder
+                .fromCollection(tmp2)
+                .withContext(getActivity())
+                .withResource(R.layout.simple_text)
+                .withStringer(new ArrayAdapterBuilder.ToString<Stop>() {
+                    public String apply(Stop stop) {
+                        return stop.name;
+                    }
+                })
+                .build());
+        
         v.setOnItemClickListener(this);
     }
     

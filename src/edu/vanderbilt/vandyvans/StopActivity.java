@@ -14,7 +14,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class StopActivity extends FragmentActivity 
+public final class StopActivity extends FragmentActivity 
         implements ActionBar.TabListener {
 
     /**

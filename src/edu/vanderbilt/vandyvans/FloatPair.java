@@ -12,4 +12,5 @@ public final class FloatPair {
 
     public static final String TAG_LAT = "Latitude";
     public static final String TAG_LON = "Longitude";
+    
 }

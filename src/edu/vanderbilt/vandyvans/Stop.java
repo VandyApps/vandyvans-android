@@ -24,9 +24,6 @@ public final class Stop {
         rtpi      = _rtpi;
     }
     
-    @Override
-    public String toString() { return name; }
-    
     public static final String TAG_ID    = "ID";
     public static final String TAG_IMAGE = "Image";
     public static final String TAG_LAT   = "Latitude";
