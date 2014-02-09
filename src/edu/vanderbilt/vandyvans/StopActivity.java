@@ -115,13 +115,22 @@ public class StopActivity extends FragmentActivity
             Bundle args = new Bundle();
             args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
             fragment.setArguments(args);
-            return fragment;
+            
+            switch(position) {
+            case 0:
+                return new StopsFragment();
+            case 1:
+                return new RouteMapFragment();
+            default:
+                return null;
+            }
+            
         }
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
-            return 3;
+            // Show 2 total pages.
+            return 2;
         }
 
         @Override
@@ -129,13 +138,12 @@ public class StopActivity extends FragmentActivity
             Locale l = Locale.getDefault();
             switch (position) {
             case 0:
-                return getString(R.string.title_section1).toUpperCase(l);
+                return getString(R.string.stops_label).toUpperCase(l);
             case 1:
-                return getString(R.string.title_section2).toUpperCase(l);
-            case 2:
-                return getString(R.string.title_section3).toUpperCase(l);
+                return getString(R.string.map_label).toUpperCase(l);
+            default:
+                return "";
             }
-            return null;
         }
     }
 

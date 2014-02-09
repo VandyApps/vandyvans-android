@@ -15,4 +15,7 @@ public final class Route {
         color = _color;
     }
 
+    @Override
+    public String toString() { return name; }
+    
 }
