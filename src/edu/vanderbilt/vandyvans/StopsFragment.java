@@ -1,6 +1,5 @@
 package edu.vanderbilt.vandyvans;
 
-
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -10,10 +9,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-final public class StopsFragment extends Fragment {
+final public class StopsFragment extends Fragment implements OnItemClickListener {
 
     static List<Stop> stops = Arrays.asList(
             buildSimpleStop(263473, "Branscomb Quad"),
@@ -51,11 +52,17 @@ final public class StopsFragment extends Fragment {
                 getActivity(),
                 R.layout.simple_text,
                 tmp2));
-        
+        v.setOnItemClickListener(this);
     }
     
     static Stop buildSimpleStop(int id, String name) {
         return new Stop(id, name, "", 0, 0, 0);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
+        DetailActivity.open(getActivity());
+        
     }
     
 }

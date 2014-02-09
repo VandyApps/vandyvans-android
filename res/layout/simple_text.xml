@@ -5,5 +5,5 @@
     android:textSize="24sp"
     android:padding="8dp"
     android:gravity="center_vertical"
-    android:background="@color/light_gold"
+    android:background="@drawable/light_to_darkgold"
     android:text="Hello" />

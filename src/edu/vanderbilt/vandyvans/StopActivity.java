@@ -10,8 +10,10 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -81,6 +83,28 @@ public class StopActivity extends FragmentActivity
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_settings) {
+            AboutsActivity.open(this);
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
+    }
+    
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK
+                && getActionBar().getSelectedNavigationIndex() == 1) {
+            getActionBar().setSelectedNavigationItem(0);
+            return true;
+        } else {
+            return super.onKeyUp(keyCode, event);
+        }
+    }
+    
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
         // When the given tab is selected, switch to the corresponding page in
