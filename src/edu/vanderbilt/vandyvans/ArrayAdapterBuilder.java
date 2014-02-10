@@ -12,42 +12,102 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+/**
+ * A Convenience class that provide a fluent interface in building an
+ * ArrayAdapter. As it stand, ArrayAdapter<T> has six constructors
+ * (https://github
+ * .com/android/platform_frameworks_base/blob/master/core/java/android
+ * /widget/ArrayAdapter.java)
+ * 
+ * @author athran
+ * 
+ * @param <T>
+ */
 public class ArrayAdapterBuilder<T> {
 
+    /**
+     * Initialize the Builder by supplying an array of objects. The type of the
+     * objects in this array will determine the type of the ArrayAdapter.
+     * 
+     * @param objects
+     * @return
+     */
     public static <U> ArrayAdapterBuilder<U> fromCollection(U[] objects) {
         ArrayAdapterBuilder<U> b = new ArrayAdapterBuilder<U>();
         b.mObjects = Arrays.asList(objects);
         return b;
     }
     
+    /**
+     * Initialize the Builder by supplying a List of objects. The type of the
+     * objects in this List will determine the type of the ArrayAdapter.
+     * 
+     * @param objects
+     * @return
+     */
     public static <U> ArrayAdapterBuilder<U> fromCollection(List<U> objects) {
         ArrayAdapterBuilder<U> b = new ArrayAdapterBuilder<U>();
         b.mObjects = objects;
         return b;
     }
     
+    /**
+     * Supply the Context object. This is mandatory. The `build()` method will
+     * throw an Exception if this is not set.
+     * 
+     * @param ctx
+     * @return
+     */
     public ArrayAdapterBuilder<T> withContext(Context ctx) {
         mCtx = ctx;
         return this;
     }
 
+    /**
+     * Supply the layout resource to be used when inflating the view. This is
+     * mandatory. The `build()` method will throw an Exception if this is not
+     * set.
+     * 
+     * @param layoutResource
+     * @return
+     */
     public ArrayAdapterBuilder<T> withResource(int layoutResource) {
         mLayoutResource = layoutResource;
         return this;
     }
     
+    /**
+     * Supply the id of the TextView in which the object's individual label
+     * should be displayed. This is optional. Refer to the original ArrayAdapter
+     * documentation for what happen when this is not set.
+     * 
+     * @param tvId
+     * @return
+     */
     public ArrayAdapterBuilder<T> withTextViewId(int tvId) {
         mTextViewId = tvId;
         return this;
     }
-    
+
+    /**
+     * Supply the function ( T -> String ). This is optional. The object's
+     * `toString()` will be used if this is not set.
+     * 
+     * @param stringer
+     * @return
+     */
     public ArrayAdapterBuilder<T> withStringer(ToString<T> stringer) {
         mStringer = stringer;
         return this;
     }
     
+    /**
+     * Build the ArrayAdapter.
+     * 
+     * @return
+     */
     public ArrayAdapter<T> build() {
-        if (mCtx == null)
+        if (mCtx == null || mLayoutResource == -1)
             throw new IllegalStateException("You must supply a Context object.");
         
         if (mObjects == null)
@@ -64,13 +124,21 @@ public class ArrayAdapterBuilder<T> {
         a.setStringer(mStringer);
         return a;
     }
-    
+
+    /**
+     * A (T -> String) function in case you want a different behaviour as the
+     * object's `toString()` method.
+     * 
+     * @author athran
+     * 
+     * @param <U>
+     */
     public interface ToString<U> {
         String apply(U object);
     }
     
-    private Context mCtx;
-    private int mLayoutResource;
+    private Context mCtx = null;
+    private int mLayoutResource = -1;
     private int mTextViewId = -1;
     private List<T> mObjects;
     private ToString<T> mStringer;
