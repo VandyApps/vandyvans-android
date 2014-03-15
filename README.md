@@ -16,3 +16,9 @@ The API used in this project was developed by [Syncromatics](http://www.syncroma
 ## Contact
 
 You can submit any bug reports or feedback either directly through the app or by emailing [vandyvansapp@gmail.com](mailto:vandyvansapp@gmail.com).
+
+## Importing Project Using IntelliJ IDEA
+
+When importing the project into IntelliJ, navigate to PROJECT_HOME/GuideAndroid/, click on
+pom.xml in the folder and click `import`. IDEA will setup all our dependencies automatically as specified in the 
+pom.xml so that you don't have to worry about doing library project import, which is really really really HARD.

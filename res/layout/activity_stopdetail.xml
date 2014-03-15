@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_gold"
+    android:background="@drawable/background"
     android:orientation="vertical"
     android:padding="16dp" >
 
@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:background="@drawable/card"
+        android:background="@color/light_gold"
         android:orientation="vertical"
         android:padding="8dp" >
 
@@ -102,6 +102,7 @@
                 style="@style/detail_page_route_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/white"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:text="@string/reminders_label" />
@@ -109,6 +110,7 @@
             <CheckBox
                 android:id="@+id/cb1"
                 android:layout_width="wrap_content"
+                
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true" />
@@ -116,7 +118,9 @@
 
         <TextView
             android:layout_width="wrap_content"
-            
+            android:gravity="center_horizontal"
+            android:textSize="16sp"
+            android:textColor="@color/white"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:text="@string/reminders_explanation" />
