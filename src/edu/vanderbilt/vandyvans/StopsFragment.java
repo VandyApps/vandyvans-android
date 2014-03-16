@@ -14,6 +14,8 @@ import android.widget.ListView;
 
 public final class StopsFragment extends Fragment implements OnItemClickListener {
 
+    private ListView mStopList;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saved) {
         return inflater.inflate(R.layout.fragment_stop, container, false);
@@ -23,14 +25,14 @@ public final class StopsFragment extends Fragment implements OnItemClickListener
     public void onActivityCreated(Bundle saved) {
         super.onActivityCreated(saved);
         
-        List<Stop> tmp2 = new LinkedList<Stop>();
-        tmp2.addAll(Stops.getShortList());
-        tmp2.add(Stops.buildSimpleStop(-1, "Other Stops"));
+        List<Stop> shortList = new LinkedList<Stop>();
+        shortList.addAll(Stops.getShortList());
+        shortList.add(Stops.buildSimpleStop(-1, "Other Stops"));
         
-        ListView v = (ListView) getView().findViewById(R.id.listView1);
+        mStopList = (ListView) getView().findViewById(R.id.listView1);
         
-        v.setAdapter(ArrayAdapterBuilder
-                .fromCollection(tmp2)
+        mStopList.setAdapter(ArrayAdapterBuilder
+                .fromCollection(shortList)
                 .withContext(getActivity())
                 .withResource(R.layout.simple_text)
                 .withStringer(new ArrayAdapterBuilder.ToString<Stop>() {
@@ -40,14 +42,31 @@ public final class StopsFragment extends Fragment implements OnItemClickListener
                 })
                 .build());
         
-        v.setOnItemClickListener(this);
+        mStopList.setOnItemClickListener(this);
     }
-    
 
     @Override
     public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
-        DetailActivity.open(getActivity());
-        
+        Stop selectedStop = (Stop) adapter.getItemAtPosition(position);
+
+        if (selectedStop.id == -1) {
+            mStopList.setAdapter(ArrayAdapterBuilder
+                    .fromCollection(Stops.getAll())
+                    .withContext(getActivity())
+                    .withResource(R.layout.simple_text)
+                    .withStringer(new ArrayAdapterBuilder.ToString<Stop>() {
+                        public String apply(Stop stop) {
+                            return stop.name;
+                        }
+                    })
+                    .build());
+
+            mStopList.invalidateViews();
+        } else {
+            DetailActivity.openForId(
+                    selectedStop.id,
+                    getActivity());
+        }
     }
     
 }

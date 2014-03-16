@@ -105,6 +105,7 @@ public final class Global extends android.app.Application {
 
         private static final String LOG_TAG = "VandyVansClient";
         private static final String BASE_URL = "http://vandyvans.com/";
+        private static final JsonParser PARSER = new JsonParser();
 
         @Override
         public boolean handleMessage(Message msg) {
@@ -139,7 +140,7 @@ public final class Global extends android.app.Application {
             try {
                 Reader reader = new InputStreamReader(Global.get(buffer.toString()));
                 List<Stop> result = new LinkedList<Stop>();
-                for (JsonElement elem : new JsonParser().parse(reader).getAsJsonArray()) {
+                for (JsonElement elem : PARSER.parse(reader).getAsJsonArray()) {
                     JsonObject obj = elem.getAsJsonObject();
                     result.add(new Stop(
                             obj.get(Stop.TAG_ID).getAsInt(),
@@ -171,7 +172,7 @@ public final class Global extends android.app.Application {
             try {
                 Reader reader = new InputStreamReader(Global.get(buffer.toString()));
                 List<FloatPair> result = new LinkedList<FloatPair>();
-                for (JsonElement elem : new JsonParser().parse(reader).getAsJsonArray()) {
+                for (JsonElement elem : PARSER.parse(reader).getAsJsonArray()) {
                     JsonObject obj = elem.getAsJsonObject();
                     result.add(new FloatPair(
                             obj.get(FloatPair.TAG_LAT).getAsDouble(),
@@ -223,6 +224,8 @@ public final class Global extends android.app.Application {
         private static final String BASE_URL = "http://api.syncromatics.com/";
         private static final String API_KEY = "a922a34dfb5e63ba549adbb259518909";
 
+        private static final JsonParser PARSER = new JsonParser();
+
         @Override
         public boolean handleMessage(Message msg) {
             if (msg.obj instanceof Initialize)
@@ -256,7 +259,7 @@ public final class Global extends android.app.Application {
             try {
                 Reader reader = new InputStreamReader(get(buffer.toString()));
                 List<Van> result = new LinkedList<Van>();
-                for (JsonElement elem : new JsonParser().parse(reader).getAsJsonArray()) {
+                for (JsonElement elem : PARSER.parse(reader).getAsJsonArray()) {
                     JsonObject obj = elem.getAsJsonObject();
                     result.add(new Van(
                             obj.get(Van.TAG_ID).getAsInt(),

@@ -23,6 +23,10 @@ public final class Stops {
         return stoplist.subList(0, 4);
     }
 
+    public static List<Stop> getAll() {
+        return stoplist;
+    }
+
     private static List<Stop> stoplist = Arrays.asList(
             buildSimpleStop(263473, "Branscomb Quad"),
             buildSimpleStop(263470, "Carmichael Tower"),
