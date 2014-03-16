@@ -104,7 +104,7 @@ public final class Global extends android.app.Application {
     private static final class VandyVansClient implements Handler.Callback {
 
         private static final String LOG_TAG = "VandyVansClient";
-        private static final String BASE_URL = "http://vandyvans.com/";
+        private static final String BASE_URL = "http://vandyvans.com";
         private static final JsonParser PARSER = new JsonParser();
 
         @Override
@@ -133,7 +133,7 @@ public final class Global extends android.app.Application {
         private boolean fetchStops(Handler from, Route r) {
 
             StringBuilder buffer = new StringBuilder(BASE_URL)
-                    .append("Route/")
+                    .append("/Route/")
                     .append(r.id)
                     .append("/Direction/0/Stops");
             
@@ -165,7 +165,7 @@ public final class Global extends android.app.Application {
         private boolean waypoints(Handler from, Route r) {
             
             StringBuilder buffer = new StringBuilder(BASE_URL)
-                    .append("Route/")
+                    .append("/Route/")
                     .append(r.id)
                     .append("/Waypoints");
             
@@ -305,7 +305,7 @@ public final class Global extends android.app.Application {
                     .append(route.id)
                     .append("/Stop/")
                     .append(stop.id)
-                    .append("Arrivals")
+                    .append("/Arrivals")
                     .append(API_KEY);
 
             ArrivalTime result = null;
@@ -318,6 +318,8 @@ public final class Global extends android.app.Application {
                         stop,
                         route,
                         predictionObj.get("Minutes").getAsInt());
+
+                reader.close();
 
             } catch (Exception e) {
                 // This stop may not be in this route.

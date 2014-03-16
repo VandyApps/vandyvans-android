@@ -14,7 +14,8 @@
     <string name="route_blue">Blue</string>
     <string name="route_red">Red</string>
     <string name="route_green">Green</string>
-    
+    <string name="arrivaltime_failure">Sorry, we could not get the Vandy Van arrival times for this stop right now.</string>
+
     <string name="reminders_label">Reminders</string>
     <string name="reminders_explanation">Turn on reminders to be alerted when the next van is close-by. These will be turned off automatically after you get the reminder.</string>
     

@@ -4,38 +4,73 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
-public final class DetailActivity extends Activity {
+import javax.xml.soap.Text;
+import java.util.List;
+
+public final class DetailActivity extends Activity implements Handler.Callback {
 
     private static final String TAG_ID = "stopId";
 
     private ArrivalTimeViewHolder mBlueGroup;
     private ArrivalTimeViewHolder mRedGroup;
     private ArrivalTimeViewHolder mGreenGroup;
+    private ProgressBar mArrivalLoading;
+    private TextView mFailureText;
+
+    private Handler controller;
+    private Stop stop;
 
     @Override
     public void onCreate(Bundle saved) {
         super.onCreate(saved);
         setContentView(R.layout.activity_stopdetail);
 
-        mBlueGroup  = new ArrivalTimeViewHolder(
-                findViewById(R.id.rl1), findViewById(R.id.tv1));
-        mRedGroup   = new ArrivalTimeViewHolder(
-                findViewById(R.id.rl2), findViewById(R.id.tv2));
-        mGreenGroup = new ArrivalTimeViewHolder(
-                findViewById(R.id.rl3), findViewById(R.id.tv3));
+        getViewReferences();
+        mBlueGroup.hide();
+        mRedGroup.hide();
+        mGreenGroup.hide();
+        mFailureText.setVisibility(View.GONE);
 
-        int stopId = saved.getInt(TAG_ID);
+        // Setup a Handler to receive replies from the services.
+        controller = new Handler(this);
+
+        final int stopId = getIntent().getIntExtra(TAG_ID, 0);
+        stop = Stops.getForId(stopId);
+        getActionBar().setTitle(stop.name);
+
         if (stopId == 0) {
             throw new IllegalStateException("No Stop to be detailed. Why do you even call me?");
         } else {
-
+            Global.syncromaticsClient().sendMessage(controller.obtainMessage(0,
+                    new Global.FetchArrivalTimes(
+                            controller,
+                            stop)));
         }
 
     }
 
+    private void getViewReferences() {
+        mBlueGroup = new ArrivalTimeViewHolder(
+                findViewById(R.id.rl1),
+                findViewById(R.id.tv1));
+
+        mRedGroup = new ArrivalTimeViewHolder(
+                findViewById(R.id.rl2),
+                findViewById(R.id.tv2));
+
+        mGreenGroup = new ArrivalTimeViewHolder(
+                findViewById(R.id.rl3),
+                findViewById(R.id.tv3));
+
+        mArrivalLoading = (ProgressBar) findViewById(R.id.progress1);
+        mFailureText = (TextView) findViewById(R.id.tv4);
+    }
 
 
     public static void openForId(int id, Context ctx) {
@@ -67,4 +102,40 @@ public final class DetailActivity extends Activity {
         }
 
     }
+
+    @Override
+    public boolean handleMessage(Message message) {
+        if (message.obj instanceof Global.ArrivalTimeResults) {
+            return displayArrivalTimes(((Global.ArrivalTimeResults) message.obj).times);
+        }
+        return false;
+    }
+
+    private boolean displayArrivalTimes(List<ArrivalTime> times) {
+
+        mArrivalLoading.setVisibility(View.GONE);
+
+        if (times.isEmpty()) {
+            mFailureText.setVisibility(View.VISIBLE);
+
+        } else {
+            for (ArrivalTime time : times) {
+                if (time.route == Routes.BLUE) {
+                    mBlueGroup.displayTime(time.minutes);
+                    mBlueGroup.show();
+
+                } else if (time.route == Routes.GREEN) {
+                    mGreenGroup.displayTime(time.minutes);
+                    mGreenGroup.show();
+
+                } else if (time.route == Routes.RED) {
+                    mRedGroup.displayTime(time.minutes);
+                    mRedGroup.show();
+                }
+            }
+        }
+
+        return true;
+    }
+
 }

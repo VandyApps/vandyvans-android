@@ -100,8 +100,6 @@ public class ArrayAdapterBuilder<T> {
         mStringer = stringer;
         return this;
     }
-
-
     
     /**
      * Build the ArrayAdapter.
