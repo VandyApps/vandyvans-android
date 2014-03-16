@@ -1,4 +1,4 @@
-package edu.vanderbilt.vandyvans;
+package edu.vanderbilt.vandyvans.models;
 
 public final class Stop {
     

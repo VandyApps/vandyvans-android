@@ -12,6 +12,8 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
+import edu.vanderbilt.vandyvans.models.*;
+
 public final class StopsFragment extends Fragment implements OnItemClickListener {
 
     private ListView mStopList;

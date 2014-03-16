@@ -10,8 +10,10 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import javax.xml.soap.Text;
 import java.util.List;
+
+import edu.vanderbilt.vandyvans.models.*;
+import edu.vanderbilt.vandyvans.services.*;
 
 public final class DetailActivity extends Activity implements Handler.Callback {
 

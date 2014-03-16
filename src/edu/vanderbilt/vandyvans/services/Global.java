@@ -1,4 +1,4 @@
-package edu.vanderbilt.vandyvans;
+package edu.vanderbilt.vandyvans.services;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,6 +17,8 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Message;
 import android.util.Log;
+
+import edu.vanderbilt.vandyvans.models.*;
 
 /**
  * Holds static references to the vital backend services which are accessible
