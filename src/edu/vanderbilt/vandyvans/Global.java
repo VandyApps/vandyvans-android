@@ -64,7 +64,7 @@ public final class Global extends android.app.Application {
     }
 
     /**
-     * Signal for requesting Stops data from the VandyVans.com API.
+     * Signal for requesting Stop data from the VandyVans.com API.
      * Send to `Global.vandyVansClient()` and listen for the reply.
      * 
      * @author athran
@@ -87,9 +87,9 @@ public final class Global extends android.app.Application {
         }
     }
     
-    public static final class Stops {
+    public static final class StopResults {
         public final List<Stop> stops;
-        public Stops(List<Stop> list) {
+        public StopResults(List<Stop> list) {
             stops = list;
         }
     }
@@ -124,7 +124,7 @@ public final class Global extends android.app.Application {
             
             else return false;
         }
-        
+
         private boolean init() {
             Log.d(LOG_TAG, "Initialization");
             return true;
@@ -152,7 +152,7 @@ public final class Global extends android.app.Application {
                 }
                 
                 reader.close();
-                from.sendMessage(from.obtainMessage(0, new Stops(result)));
+                from.sendMessage(from.obtainMessage(0, new StopResults(result)));
                 
             } catch (Exception e) {
                 Log.e(LOG_TAG, "Failed to get Stops for Route.");
@@ -216,13 +216,18 @@ public final class Global extends android.app.Application {
         }
     }
     
-    
+    public static final class ArrivalTimeResults {
+        public final List<ArrivalTime> times;
+        public ArrivalTimeResults(List<ArrivalTime> _times) {
+            times = _times;
+        }
+    }
     
     private static final class SyncromaticsClient implements Handler.Callback {
 
         private static final String LOG_TAG = "SyncromaticsClient";
-        private static final String BASE_URL = "http://api.syncromatics.com/";
-        private static final String API_KEY = "a922a34dfb5e63ba549adbb259518909";
+        private static final String BASE_URL = "http://api.syncromatics.com";
+        private static final String API_KEY = "?api_key=a922a34dfb5e63ba549adbb259518909";
 
         private static final JsonParser PARSER = new JsonParser();
 
@@ -250,10 +255,10 @@ public final class Global extends android.app.Application {
         }
         
         private boolean vans(Handler requester, Route route) {
-            StringBuilder buffer = new StringBuilder(BASE_URL)
-                    .append("Route/")
+            final StringBuilder buffer = new StringBuilder(BASE_URL)
+                    .append("/Route/")
                     .append(route.id)
-                    .append("/Vehicles?api_key=")
+                    .append("/Vehicles")
                     .append(API_KEY);
             
             try {
@@ -280,9 +285,46 @@ public final class Global extends android.app.Application {
             return true;
         }
         // http://api.syncromatics.com/Route/745/Stop/263473/Arrivals?api_key=a922a34dfb5e63ba549adbb259518909
-        private boolean arrivalTimes(Handler requester, Stop stop) {
-            
+        private boolean arrivalTimes(final Handler requester, final Stop stop) {
+
+            List<ArrivalTime> result = new LinkedList<ArrivalTime>();
+            for (Route r : Routes.getAll()) {
+                ArrivalTime time = readArrivalTimeForRoute(r, stop);
+                if (time != null) {
+                    result.add(time);
+                }
+            }
+
+            requester.sendMessage(requester.obtainMessage(0, new ArrivalTimeResults(result)));
             return true;
+        }
+
+        private ArrivalTime readArrivalTimeForRoute(Route route, final Stop stop) {
+            final StringBuilder buffer = new StringBuilder(BASE_URL)
+                    .append("/Route/")
+                    .append(route.id)
+                    .append("/Stop/")
+                    .append(stop.id)
+                    .append("Arrivals")
+                    .append(API_KEY);
+
+            ArrivalTime result = null;
+
+            try {
+                final Reader reader = new InputStreamReader(get(buffer.toString()));
+                final JsonObject responseObj = PARSER.parse(reader).getAsJsonObject();
+                final JsonObject predictionObj = responseObj.get("Predictions").getAsJsonObject();
+                result = new ArrivalTime(
+                        stop,
+                        route,
+                        predictionObj.get("Minutes").getAsInt());
+
+            } catch (Exception e) {
+                // This stop may not be in this route.
+                // return null
+            }
+
+            return result;
         }
     }
     

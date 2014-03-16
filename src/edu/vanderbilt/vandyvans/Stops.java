@@ -1,7 +1,6 @@
 package edu.vanderbilt.vandyvans;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by athran on 3/15/14.
@@ -20,12 +19,14 @@ public final class Stops {
     }
 
     public static List<Stop> getShortList() {
-        return stoplist.subList(0, 4);
+        return Collections.unmodifiableList(stoplist.subList(0, 4));
     }
 
     public static List<Stop> getAll() {
-        return stoplist;
+        return Collections.unmodifiableList(stoplist);
     }
+
+    private static Map<Integer, Stop> poorDatabase = new HashMap<Integer, Stop>();
 
     private static List<Stop> stoplist = Arrays.asList(
             buildSimpleStop(263473, "Branscomb Quad"),
@@ -44,7 +45,5 @@ public final class Stops {
             buildSimpleStop(401204, "Blakemore House"),
             buildSimpleStop(446923, "Medical Center")
     );
-
-
 
 }
