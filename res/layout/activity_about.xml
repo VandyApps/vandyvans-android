@@ -1,78 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/background"
-    android:orientation="vertical"
-    android:padding="16dp" >
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@drawable/background"
+              android:orientation="vertical"
+              android:padding="16dp">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:alpha="0.9"
-        android:background="@color/white"
-        android:orientation="vertical"
-        android:padding="8dp" >
-
-        <Button
-            android:id="@+id/button1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/report_bug" />
+            android:layout_margin="8dp"
+            android:alpha="0.9"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:padding="8dp">
 
         <Button
-            android:id="@+id/button2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/send_feedback" />
+                android:id="@+id/button1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/report_bug"/>
 
         <Button
-            android:id="@+id/button3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/attribution" />
+                android:id="@+id/button2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/send_feedback"/>
+
+        <Button
+                android:id="@+id/button3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/attribution"/>
     </LinearLayout>
 
     <View
-        android:layout_width="match_parent"
-        android:layout_height="16dp" >
+            android:layout_width="match_parent"
+            android:layout_height="16dp">
 
         <!-- Separator -->
     </View>
 
     <TextView
-        style="@style/about_credits"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/created_by" />
+            style="@style/about_credits"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/created_by"/>
 
     <TextView
-        style="@style/about_credits"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Green Lantern"
-        android:textStyle="bold" />
+            style="@style/about_credits"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Green Lantern"
+            android:textStyle="bold"/>
 
     <View
-        android:layout_width="match_parent"
-        android:layout_height="16dp" >
+            android:layout_width="match_parent"
+            android:layout_height="16dp">
 
         <!-- Separator -->
     </View>
 
     <TextView
-        android:id="@+id/textView2"
-        style="@style/about_credits"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/graphics_design" />
+            android:id="@+id/textView2"
+            style="@style/about_credits"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/graphics_design"/>
 
     <TextView
-        style="@style/about_credits"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Batman"
-        android:textStyle="bold" />
+            style="@style/about_credits"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Batman"
+            android:textStyle="bold"/>
 
 </LinearLayout>
