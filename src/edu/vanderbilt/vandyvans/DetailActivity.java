@@ -12,7 +12,10 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import edu.vanderbilt.vandyvans.models.*;
+import edu.vanderbilt.vandyvans.models.ArrivalTime;
+import edu.vanderbilt.vandyvans.models.Routes;
+import edu.vanderbilt.vandyvans.models.Stop;
+import edu.vanderbilt.vandyvans.models.Stops;
 import edu.vanderbilt.vandyvans.services.Global;
 
 public final class DetailActivity extends Activity implements Handler.Callback {

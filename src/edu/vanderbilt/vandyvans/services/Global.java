@@ -9,8 +9,11 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Message;
-
-import edu.vanderbilt.vandyvans.models.*;
+import edu.vanderbilt.vandyvans.models.ArrivalTime;
+import edu.vanderbilt.vandyvans.models.FloatPair;
+import edu.vanderbilt.vandyvans.models.Route;
+import edu.vanderbilt.vandyvans.models.Stop;
+import edu.vanderbilt.vandyvans.models.Van;
 
 /**
  * Holds static references to the vital backend services which are accessible
