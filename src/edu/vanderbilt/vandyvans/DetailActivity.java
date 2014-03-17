@@ -51,11 +51,15 @@ public final class DetailActivity extends Activity implements Handler.Callback {
 
         if (stopId == 0) {
             throw new IllegalStateException("No Stop to be detailed. Why do you even call me?");
+
         } else {
-            Global.syncromaticsClient().sendMessage(controller.obtainMessage(0,
-                    new Global.FetchArrivalTimes(
-                            controller,
-                            stop)));
+            Global.syncromaticsClient()
+                    .obtainMessage(0,
+                            new Global.FetchArrivalTimes(
+                                    controller,
+                                    stop))
+                    .sendToTarget();
+
         }
 
     }
@@ -82,30 +86,6 @@ public final class DetailActivity extends Activity implements Handler.Callback {
         Intent i = new Intent(ctx, DetailActivity.class);
         i.putExtra(TAG_ID, id);
         ctx.startActivity(i);
-    }
-
-    private static class ArrivalTimeViewHolder {
-
-        final View view;
-        final TextView timeDisplay;
-
-        ArrivalTimeViewHolder(View v, View disp) {
-            view = v;
-            timeDisplay = (TextView) disp;
-        }
-
-        void displayTime(int minutes) {
-            timeDisplay.setText(minutes + " minutes");
-        }
-
-        void hide() {
-            view.setVisibility(View.GONE);
-        }
-
-        void show() {
-            view.setVisibility(View.VISIBLE);
-        }
-
     }
 
     @Override
@@ -141,6 +121,30 @@ public final class DetailActivity extends Activity implements Handler.Callback {
         }
 
         return true;
+    }
+
+    private static class ArrivalTimeViewHolder {
+
+        final View view;
+        final TextView timeDisplay;
+
+        ArrivalTimeViewHolder(View v, View disp) {
+            view = v;
+            timeDisplay = (TextView) disp;
+        }
+
+        void displayTime(int minutes) {
+            timeDisplay.setText(minutes + " minutes");
+        }
+
+        void hide() {
+            view.setVisibility(View.GONE);
+        }
+
+        void show() {
+            view.setVisibility(View.VISIBLE);
+        }
+
     }
 
 }

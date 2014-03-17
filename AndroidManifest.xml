@@ -35,6 +35,10 @@
                 android:name="edu.vanderbilt.vandyvans.AboutsActivity"
                 android:screenOrientation="portrait">
         </activity>
+        <activity
+                android:name="edu.vanderbilt.vandyvans.FormActivity"
+                android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>

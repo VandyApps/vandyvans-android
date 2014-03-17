@@ -55,7 +55,7 @@ final class VandyVansClient implements Handler.Callback {
         return true;
     }
 
-    private boolean fetchStops(Handler from, Route r) {
+    private boolean fetchStops(Handler requester, Route r) {
 
         StringBuilder buffer = new StringBuilder(BASE_URL)
                 .append("/Route/")
@@ -77,7 +77,9 @@ final class VandyVansClient implements Handler.Callback {
             }
 
             reader.close();
-            from.sendMessage(from.obtainMessage(0, new Global.StopResults(result)));
+            requester
+                    .obtainMessage(0, new Global.StopResults(result))
+                    .sendToTarget();
 
         } catch (Exception e) {
             Log.e(LOG_TAG, "Failed to get Stops for Route.");
@@ -87,7 +89,7 @@ final class VandyVansClient implements Handler.Callback {
         return true;
     }
 
-    private boolean waypoints(Handler from, Route r) {
+    private boolean waypoints(Handler requester, Route r) {
 
         StringBuilder buffer = new StringBuilder(BASE_URL)
                 .append("/Route/")
@@ -105,7 +107,11 @@ final class VandyVansClient implements Handler.Callback {
             }
 
             reader.close();
-            from.sendMessage(from.obtainMessage(0, new Global.WaypointResults(result)));
+
+            requester
+                    .obtainMessage(0,
+                            new Global.WaypointResults(result))
+                    .sendToTarget();
 
         } catch (Exception e) {
             Log.e(LOG_TAG, "Failed to get Waypoints for Route.");

@@ -68,7 +68,10 @@ final class SyncromaticsClient implements Handler.Callback {
             }
 
             reader.close();
-            requester.sendMessage(requester.obtainMessage(0, new Global.VanResults(result)));
+            requester
+                    .obtainMessage(0,
+                            new Global.VanResults(result))
+                    .sendToTarget();
 
         } catch (Exception e) {
             Log.e(LOG_TAG, "Failed to get Vans for Route.");
@@ -90,7 +93,12 @@ final class SyncromaticsClient implements Handler.Callback {
         }
 
         //Log.d(LOG_TAG, "This many Times fetched: " + result.size());
-        requester.sendMessage(requester.obtainMessage(0, new Global.ArrivalTimeResults(result)));
+
+        requester
+                .obtainMessage(0,
+                        new Global.ArrivalTimeResults(result))
+                .sendToTarget();
+
         return true;
     }
 
