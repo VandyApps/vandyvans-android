@@ -23,6 +23,10 @@
     <string name="report_bug">Report a Bug</string>
     <string name="send_feedback">Send Feedback</string>
     <string name="attribution">Attribution</string>
+    <string name="email_hint">your email address</string>
+    <string name="bugreport_hint">describe the bug</string>
+    <string name="feedback_hint">feedback about the application</string>
+    <string name="submit">Submit</string>
     
     <string name="created_by">CREATED BY:</string>
     <string name="graphics_design">GRAPHIC DESIGN BY:</string>

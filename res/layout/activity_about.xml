@@ -4,6 +4,7 @@
               android:layout_height="match_parent"
               android:background="@drawable/background"
               android:orientation="vertical"
+              android:animateLayoutChanges="true"
               android:padding="16dp">
 
     <LinearLayout
@@ -21,58 +22,67 @@
                 android:layout_height="wrap_content"
                 android:text="@string/report_bug"/>
 
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="4dp">
+
+            <!-- Separator -->
+        </View>
+
         <Button
                 android:id="@+id/button2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/send_feedback"/>
 
-        <Button
-                android:id="@+id/button3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/attribution"/>
     </LinearLayout>
 
-    <View
+    <LinearLayout
+            android:id="@+id/linear1"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="16dp">
+            android:layout_height="wrap_content">
 
-        <!-- Separator -->
-    </View>
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="16dp">
 
-    <TextView
-            style="@style/about_credits"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/created_by"/>
+            <!-- Separator -->
+        </View>
 
-    <TextView
-            style="@style/about_credits"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Green Lantern"
-            android:textStyle="bold"/>
+        <TextView
+                style="@style/about_credits"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/created_by"/>
 
-    <View
-            android:layout_width="match_parent"
-            android:layout_height="16dp">
+        <TextView
+                style="@style/about_credits"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Green Lantern"
+                android:textStyle="bold"/>
 
-        <!-- Separator -->
-    </View>
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="16dp">
 
-    <TextView
-            android:id="@+id/textView2"
-            style="@style/about_credits"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/graphics_design"/>
+            <!-- Separator -->
+        </View>
 
-    <TextView
-            style="@style/about_credits"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Batman"
-            android:textStyle="bold"/>
+        <TextView
+                android:id="@+id/textView2"
+                style="@style/about_credits"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/graphics_design"/>
+
+        <TextView
+                style="@style/about_credits"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Batman"
+                android:textStyle="bold"/>
+    </LinearLayout>
 
 </LinearLayout>
