@@ -20,7 +20,12 @@
     <style name="detail_page_route_label">
         <item name="android:textSize">24sp</item>
     </style>
-    
+
+    <style name="detail_page_time_label">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@android:color/darker_gray</item>
+    </style>
+
     <style name="about_credits">
         <item name="android:textSize">24sp</item>
         <item name="android:textColor">@color/white</item>

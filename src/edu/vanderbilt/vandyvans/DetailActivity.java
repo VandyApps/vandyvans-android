@@ -13,7 +13,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import edu.vanderbilt.vandyvans.models.*;
-import edu.vanderbilt.vandyvans.services.*;
+import edu.vanderbilt.vandyvans.services.Global;
 
 public final class DetailActivity extends Activity implements Handler.Callback {
 

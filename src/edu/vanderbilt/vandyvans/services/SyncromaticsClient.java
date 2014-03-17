@@ -3,6 +3,7 @@ package edu.vanderbilt.vandyvans.services;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -79,7 +80,7 @@ final class SyncromaticsClient implements Handler.Callback {
     }
     // http://api.syncromatics.com/Route/745/Stop/263473/Arrivals?api_key=a922a34dfb5e63ba549adbb259518909
     private boolean arrivalTimes(final Handler requester, final Stop stop) {
-
+        Log.d(LOG_TAG, "Arrival Time request received.");
         List<ArrivalTime> result = new LinkedList<ArrivalTime>();
         for (Route r : Routes.getAll()) {
             ArrivalTime time = readArrivalTimeForRoute(r, stop);
@@ -88,6 +89,7 @@ final class SyncromaticsClient implements Handler.Callback {
             }
         }
 
+        Log.d(LOG_TAG, "This many Times fetched: " + result.size());
         requester.sendMessage(requester.obtainMessage(0, new Global.ArrivalTimeResults(result)));
         return true;
     }
@@ -106,7 +108,10 @@ final class SyncromaticsClient implements Handler.Callback {
         try {
             final Reader reader = new InputStreamReader(Global.get(buffer.toString()));
             final JsonObject responseObj = PARSER.parse(reader).getAsJsonObject();
-            final JsonObject predictionObj = responseObj.get("Predictions").getAsJsonObject();
+            final JsonObject predictionObj = responseObj
+                    .get("Predictions").getAsJsonArray()
+                    .get(0).getAsJsonObject();
+
             result = new ArrivalTime(
                     stop,
                     route,
@@ -117,6 +122,8 @@ final class SyncromaticsClient implements Handler.Callback {
         } catch (Exception e) {
             // This stop may not be in this route.
             // return null
+            Log.e(LOG_TAG, e.getMessage());
+            Log.e(LOG_TAG, buffer.toString());
         }
 
         return result;
