@@ -2,7 +2,10 @@ package edu.vanderbilt.vandyvans.services;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.List;
 
 import android.content.Context;
@@ -29,6 +32,12 @@ public final class Global extends android.app.Application {
     /**
      * VandyVansClient Singleton provides the hook for performing http
      * request to the vandyvans.com API.
+     *
+     * Messages:
+     *     `FetchStops`
+     *     `FetchWaypoints`
+     *     `Report`
+     *
      */
     public static Handler vandyVansClient() { return sVandyVansClient; }
     private static Handler sVandyVansClient = null;
@@ -63,7 +72,9 @@ public final class Global extends android.app.Application {
     /**
      * Signal for requesting Stop data from the VandyVans.com API.
      * Send to `Global.vandyVansClient()` and listen for the reply.
-     * 
+     *
+     * Reply: `StopResults`
+     *
      * @author athran
      */
     public static final class FetchStops {
@@ -74,7 +85,10 @@ public final class Global extends android.app.Application {
             from = _from;
         }
     }
-    
+
+    /**
+     * Reply: `WaypointResults`
+     */
     public static final class FetchWaypoints {
         public final Route route;
         public final Handler from;
@@ -91,13 +105,16 @@ public final class Global extends android.app.Application {
         }
     }
     
-    public static final class Waypoints {
+    public static final class WaypointResults {
         public final List<FloatPair> waypoints;
-        public Waypoints(List<FloatPair> _waypoints) {
+        public WaypointResults(List<FloatPair> _waypoints) {
             waypoints = _waypoints;
         }
     }
 
+    /**
+     * Reply: `VanResults`
+     */
     public static final class FetchVans {
         public final Route route;
         public final Handler from;
@@ -106,7 +123,10 @@ public final class Global extends android.app.Application {
             from = _from;
         }
     }
-    
+
+    /**
+     * Reply: `ArrivalTimeResults`
+     */
     public static final class FetchArrivalTimes {
         public final Stop stop;
         public final Handler from;
@@ -116,9 +136,9 @@ public final class Global extends android.app.Application {
         }
     }
     
-    public static final class Vans {
+    public static final class VanResults {
         public final List<Van> vans;
-        public Vans(List<Van> _vans) {
+        public VanResults(List<Van> _vans) {
             vans = _vans;
         }
     }
@@ -140,5 +160,18 @@ public final class Global extends android.app.Application {
     static InputStream get(String url) throws IOException {
         return new URL(url).openStream();
     }
-    
+
+    static InputStream post(String url, String params) throws IOException {
+        URLConnection conn = new URL(url).openConnection();
+        conn.setDoInput(true);
+        conn.setDoOutput(true);
+        conn.setUseCaches(false);
+
+        Writer writer = new OutputStreamWriter(conn.getOutputStream());
+        writer.write(params);
+        writer.flush();
+
+        return conn.getInputStream();
+    }
+
 }

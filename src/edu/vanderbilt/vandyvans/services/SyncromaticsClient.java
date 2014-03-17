@@ -68,7 +68,7 @@ final class SyncromaticsClient implements Handler.Callback {
             }
 
             reader.close();
-            requester.sendMessage(requester.obtainMessage(0, new Global.Vans(result)));
+            requester.sendMessage(requester.obtainMessage(0, new Global.VanResults(result)));
 
         } catch (Exception e) {
             Log.e(LOG_TAG, "Failed to get Vans for Route.");

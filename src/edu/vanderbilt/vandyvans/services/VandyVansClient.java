@@ -2,16 +2,20 @@ package edu.vanderbilt.vandyvans.services;
 
 import android.os.Handler;
 import android.os.Message;
+import android.util.JsonWriter;
 import android.util.Log;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import edu.vanderbilt.vandyvans.models.FloatPair;
+import edu.vanderbilt.vandyvans.models.Report;
 import edu.vanderbilt.vandyvans.models.Route;
 import edu.vanderbilt.vandyvans.models.Stop;
 
+import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.StringWriter;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,6 +26,7 @@ final class VandyVansClient implements Handler.Callback {
 
     private static final String LOG_TAG = "VandyVansClient";
     private static final String BASE_URL = "http://vandyvans.com";
+    private static final String REPORT_URL = "http://studentorgs.vanderbilt.edu/vandymobile/bugReport.php";
     private static final JsonParser PARSER = new JsonParser();
 
     @Override
@@ -38,6 +43,9 @@ final class VandyVansClient implements Handler.Callback {
             return waypoints(
                     ((Global.FetchWaypoints) msg.obj).from,
                     ((Global.FetchWaypoints) msg.obj).route);
+
+        else if (msg.obj instanceof Report)
+            return postReport((Report) msg.obj);
 
         else return false;
     }
@@ -97,7 +105,7 @@ final class VandyVansClient implements Handler.Callback {
             }
 
             reader.close();
-            from.sendMessage(from.obtainMessage(0, new Global.Waypoints(result)));
+            from.sendMessage(from.obtainMessage(0, new Global.WaypointResults(result)));
 
         } catch (Exception e) {
             Log.e(LOG_TAG, "Failed to get Waypoints for Route.");
@@ -106,4 +114,45 @@ final class VandyVansClient implements Handler.Callback {
         }
         return true;
     }
+
+    private boolean postReport(Report report) {
+        final StringWriter buffer = new StringWriter();
+        final JsonWriter writer = new JsonWriter(buffer);
+
+        try {
+            writer.beginObject();
+            writer.name("verifyHash")
+                    .value(""); // TODO
+            writer.name("isBugReport")
+                    .value(report.isBugReport? "TRUE" : "FALSE");
+            writer.name("senderAddress")
+                    .value(report.senderAddress);
+            writer.name("body")
+                    .value(report.bodyOfReport);
+            writer.name("notifyWhenResolved")
+                    .value(report.notifyWhenResolved);
+            writer.endObject();
+
+            BufferedReader respReader = new BufferedReader(
+                    new InputStreamReader(
+                            Global.post(
+                                    REPORT_URL,
+                                    buffer.toString())));
+
+            Log.i(LOG_TAG, "Vandy Vans server response for report.");
+            for (String line = respReader.readLine(); // Yeah motherfucker
+                 line != null;
+                 line = respReader.readLine()) {
+                Log.i(LOG_TAG, line);
+            }
+
+        } catch (Exception e) {
+            Log.e(LOG_TAG, "Failed to send report");
+            Log.e(LOG_TAG, report.toString());
+            Log.e(LOG_TAG, e.getMessage());
+        }
+
+        return true;
+    }
+
 }
