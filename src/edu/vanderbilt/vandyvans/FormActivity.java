@@ -7,30 +7,31 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import edu.vanderbilt.vandyvans.models.Report;
-import edu.vanderbilt.vandyvans.services.Global;
+import roboguice.activity.RoboActivity;
+import roboguice.inject.InjectView;
 
 
 /**
+ * The form for submitting feedbacks and bugreports.
+ *
  * Created by athran on 3/17/14.
  */
-public final class FormActivity extends Activity {
+public final class FormActivity extends RoboActivity {
 
     static final String TAG_FORMTITLE = "form_title";
     static final String TAG_FORMBODYHINT = "form_body_hint";
     static final String RESULT_EMAIL = "result_email";
     static final String RESULT_BODY = "result_body";
 
-    private TextView mFormTitle;
-    private EditText mEmailField;
-    private EditText mBodyField;
-    private Button mSubmit;
+    @InjectView(R.id.textView1) private TextView mFormTitle;
+    @InjectView(R.id.editText)  private EditText mEmailField;
+    @InjectView(R.id.editText2) private EditText mBodyField;
+    @InjectView(R.id.button3)   private Button mSubmit;
 
     @Override
     protected void onCreate(Bundle saved) {
         super.onCreate(saved);
         setContentView(R.layout.report_form);
-        getViewReferences();
 
         final FormConfig conf = readConfig(getIntent().getExtras());
         mFormTitle.setText(conf.formTitle);
@@ -58,13 +59,6 @@ public final class FormActivity extends Activity {
                 }
             }
         });
-    }
-
-    private void getViewReferences() {
-        mFormTitle  = (TextView) findViewById(R.id.textView1);
-        mEmailField = (EditText) findViewById(R.id.editText);
-        mBodyField  = (EditText) findViewById(R.id.editText2);
-        mSubmit     = (Button)   findViewById(R.id.button3);
     }
 
     private FormConfig readConfig(Bundle args) {

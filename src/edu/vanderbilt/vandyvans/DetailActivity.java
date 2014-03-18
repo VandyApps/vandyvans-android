@@ -1,6 +1,5 @@
 package edu.vanderbilt.vandyvans;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,24 +11,29 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import com.google.inject.Inject;
 import edu.vanderbilt.vandyvans.models.ArrivalTime;
 import edu.vanderbilt.vandyvans.models.Routes;
 import edu.vanderbilt.vandyvans.models.Stop;
 import edu.vanderbilt.vandyvans.models.Stops;
 import edu.vanderbilt.vandyvans.services.Global;
+import edu.vanderbilt.vandyvans.services.VandyClients;
+import roboguice.activity.RoboActivity;
+import roboguice.inject.InjectView;
 
-public final class DetailActivity extends Activity implements Handler.Callback {
+public final class DetailActivity extends RoboActivity implements Handler.Callback {
 
     private static final String TAG_ID = "stopId";
 
     private ArrivalTimeViewHolder mBlueGroup;
     private ArrivalTimeViewHolder mRedGroup;
     private ArrivalTimeViewHolder mGreenGroup;
-    private ProgressBar mArrivalLoading;
-    private TextView mFailureText;
+    @InjectView(R.id.progress1) private ProgressBar mArrivalLoading;
+    @InjectView(R.id.tv4)       private TextView mFailureText;
 
     private Handler controller;
     private Stop stop;
+    @Inject VandyClients apiClient;
 
     @Override
     public void onCreate(Bundle saved) {
@@ -54,7 +58,7 @@ public final class DetailActivity extends Activity implements Handler.Callback {
             stop = Stops.getForId(stopId);
             getActionBar().setTitle(stop.name);
 
-            Message.obtain(Global.syncromaticsClient(), 0,
+            Message.obtain(apiClient.syncromatics(), 0,
                            new Global.FetchArrivalTimes(
                                    controller,
                                    stop))
@@ -83,9 +87,6 @@ public final class DetailActivity extends Activity implements Handler.Callback {
         mGreenGroup = new ArrivalTimeViewHolder(
                 findViewById(R.id.rl3),
                 findViewById(R.id.tv3));
-
-        mArrivalLoading = (ProgressBar) findViewById(R.id.progress1);
-        mFailureText = (TextView) findViewById(R.id.tv4);
     }
 
     public static void openForId(int id, Context ctx) {

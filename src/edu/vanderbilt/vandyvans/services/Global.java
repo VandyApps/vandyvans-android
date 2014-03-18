@@ -12,11 +12,15 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Message;
+import com.google.inject.Binder;
+import com.google.inject.Module;
+import com.google.inject.Provider;
 import edu.vanderbilt.vandyvans.models.ArrivalTime;
 import edu.vanderbilt.vandyvans.models.FloatPair;
 import edu.vanderbilt.vandyvans.models.Route;
 import edu.vanderbilt.vandyvans.models.Stop;
 import edu.vanderbilt.vandyvans.models.Van;
+import roboguice.RoboGuice;
 
 /**
  * Holds static references to the vital backend services which are accessible
@@ -29,44 +33,73 @@ import edu.vanderbilt.vandyvans.models.Van;
  */
 public final class Global extends android.app.Application {
 
-    /**
-     * VandyVansClient Singleton provides the hook for performing http
-     * request to the vandyvans.com API.
-     *
-     * Messages:
-     *     `FetchStops`
-     *     `FetchWaypoints`
-     *     `Report`
-     *
-     */
-    public static Handler vandyVansClient() { return sVandyVansClient; }
-    private static Handler sVandyVansClient = null;
-    
-    /**
-     * SyncromaticsClient Singleton provides the hook for performing
-     * http request to http://api.syncromatics.com/.
-     */
-    public static Handler syncromaticsClient() { return sSyncromatics; }
-    private static Handler sSyncromatics = null;
-    
+    private VandyClientsSingleton mClientSingleton;
+
     @Override
     public void onCreate() {
         super.onCreate();
-        Global.initializeGlobalState(this);
+        initializeGlobalState();
     }
 
     /**
      * Should be called by a subclass of Application.
-     * @param ctx
      */
-    static void initializeGlobalState(Context ctx) {
+    void initializeGlobalState() {
+
+        // Intialize the background thread to be used by the services.
         final HandlerThread thread = new HandlerThread("BackgroundThread");
         thread.start();
-        sVandyVansClient = new Handler(thread.getLooper(), new VandyVansClient());
-        sVandyVansClient.sendMessage(Message.obtain(null, 0, new Initialize(ctx)));
-        
-        sSyncromatics = new Handler(thread.getLooper(), new SyncromaticsClient());
-        sSyncromatics.sendMessage(Message.obtain(null, 0, new Initialize(ctx)));
+
+        // Create an Object to hold on to the services.
+        mClientSingleton = new VandyClientsSingleton(thread, this);
+
+        // Create a provider to inject the Service Holder to anybody who
+        // needs it.
+        RoboGuice.setBaseApplicationInjector(
+                this,
+                RoboGuice.DEFAULT_STAGE,
+                RoboGuice.newDefaultRoboModule(this),
+                new Module() {
+                    @Override
+                    public void configure(Binder binder) {
+                        binder.bind(VandyClients.class)
+
+                                // inject the fucking injector!
+                                .toProvider(new Provider<VandyClients>() {
+                                    @Override
+                                    public VandyClients get() {
+                                        return mClientSingleton;
+                                    }
+                                });
+                    }
+                });
+
+    }
+
+    static final class VandyClientsSingleton implements VandyClients {
+
+        final Handler vandyVansClient;
+        final Handler syncromaticsClient;
+
+        VandyClientsSingleton(HandlerThread serviceThread, Context ctx) {
+            vandyVansClient = new Handler(serviceThread.getLooper(),
+                                          new VandyVansClient());
+            vandyVansClient.sendMessage(Message.obtain(null, 0, new Initialize(ctx)));
+
+            syncromaticsClient = new Handler(serviceThread.getLooper(),
+                                             new SyncromaticsClient());
+            syncromaticsClient.sendMessage(Message.obtain(null, 0, new Initialize(ctx)));
+        }
+
+        @Override
+        public Handler vandyVans() {
+            return vandyVansClient;
+        }
+
+        @Override
+        public Handler syncromatics() {
+            return syncromaticsClient;
+        }
     }
 
     /**

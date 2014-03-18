@@ -1,33 +1,38 @@
 package edu.vanderbilt.vandyvans;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import com.google.inject.Inject;
 import edu.vanderbilt.vandyvans.models.Report;
 import edu.vanderbilt.vandyvans.services.Global;
+import edu.vanderbilt.vandyvans.services.VandyClients;
+import roboguice.activity.RoboActivity;
+import roboguice.inject.InjectView;
 
-public final class AboutsActivity extends Activity {
+public final class AboutsActivity extends RoboActivity {
 
     private static final String TAG_FORMTYPE = "formtype";
     private static final int TAG_BUG = 1000;
     private static final int TAG_FEED = 1111;
 
-    private Button mBugReport;
-    private Button mFeedbackReport;
+    @InjectView(R.id.button1) private Button mBugReport;
+    @InjectView(R.id.button2) private Button mFeedbackReport;
+
+    @Inject VandyClients clients;
 
     @Override
     protected void onCreate(Bundle saved) {
         super.onCreate(saved);
         setContentView(R.layout.activity_about);
-        getViewReferences();
 
         mBugReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(AboutsActivity.this, FormActivity.class);
+                final Intent i = new Intent(AboutsActivity.this,
+                                            FormActivity.class);
                 i.putExtra(TAG_FORMTYPE, TAG_BUG);
                 i.putExtra(FormActivity.TAG_FORMTITLE, "Report a Bug");
                 i.putExtra(FormActivity.TAG_FORMBODYHINT, "describe the bug");
@@ -38,11 +43,16 @@ public final class AboutsActivity extends Activity {
         mFeedbackReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(AboutsActivity.this, FormActivity.class);
-                i.putExtra(TAG_FORMTYPE, TAG_FEED);
-                i.putExtra(FormActivity.TAG_FORMTITLE, "Send Feedback");
-                i.putExtra(FormActivity.TAG_FORMBODYHINT, "thoughts on the app");
-                startActivityForResult(i, -1);
+                startActivityForResult(
+                        new Intent()
+                                .setClass(AboutsActivity.this,
+                                          FormActivity.class)
+                                .putExtra(TAG_FORMTYPE, TAG_FEED)
+                                .putExtra(FormActivity.TAG_FORMTITLE,
+                                          "Send Feedback")
+                                .putExtra(FormActivity.TAG_FORMBODYHINT,
+                                          "thoughts on the app"),
+                        -1);
             }
         });
 
@@ -52,7 +62,7 @@ public final class AboutsActivity extends Activity {
     protected void onActivityResult(int requestCode,
                                     int resultCode,
                                     Intent data) {
-        Global.vandyVansClient()
+        clients.vandyVans()
                 .obtainMessage(
                         0,
                         new Report(
@@ -61,11 +71,6 @@ public final class AboutsActivity extends Activity {
                                 data.getStringExtra(FormActivity.RESULT_BODY),
                                 false))
                 .sendToTarget();
-    }
-
-    private void getViewReferences() {
-        mBugReport = (Button) findViewById(R.id.button1);
-        mFeedbackReport = (Button) findViewById(R.id.button2);
     }
     
     public static void open(Context ctx) {
