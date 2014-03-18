@@ -46,20 +46,27 @@ public final class DetailActivity extends Activity implements Handler.Callback {
         controller = new Handler(this);
 
         final int stopId = getIntent().getIntExtra(TAG_ID, 0);
-        stop = Stops.getForId(stopId);
-        getActionBar().setTitle(stop.name);
 
         if (stopId == 0) {
             throw new IllegalStateException("No Stop to be detailed. Why do you even call me?");
 
         } else {
+            stop = Stops.getForId(stopId);
+            getActionBar().setTitle(stop.name);
+
+            Message.obtain(Global.syncromaticsClient(), 0,
+                           new Global.FetchArrivalTimes(
+                                   controller,
+                                   stop))
+                    .sendToTarget();
+/*
             Global.syncromaticsClient()
                     .obtainMessage(0,
                             new Global.FetchArrivalTimes(
                                     controller,
                                     stop))
                     .sendToTarget();
-
+*/
         }
 
     }
@@ -80,7 +87,6 @@ public final class DetailActivity extends Activity implements Handler.Callback {
         mArrivalLoading = (ProgressBar) findViewById(R.id.progress1);
         mFailureText = (TextView) findViewById(R.id.tv4);
     }
-
 
     public static void openForId(int id, Context ctx) {
         Intent i = new Intent(ctx, DetailActivity.class);

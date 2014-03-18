@@ -155,6 +155,7 @@ final class VandyVansClient implements Handler.Callback {
         } catch (Exception e) {
             Log.e(LOG_TAG, "Failed to send report");
             Log.e(LOG_TAG, report.toString());
+            Log.e(LOG_TAG, buffer.toString());
             Log.e(LOG_TAG, e.getMessage());
         }
 

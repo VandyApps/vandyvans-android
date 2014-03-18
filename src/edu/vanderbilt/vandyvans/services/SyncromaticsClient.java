@@ -68,11 +68,16 @@ final class SyncromaticsClient implements Handler.Callback {
             }
 
             reader.close();
+
+            Message.obtain(requester, 0,
+                           new Global.VanResults(result))
+                    .sendToTarget();
+/*
             requester
                     .obtainMessage(0,
-                            new Global.VanResults(result))
+                                   new Global.VanResults(result))
                     .sendToTarget();
-
+*/
         } catch (Exception e) {
             Log.e(LOG_TAG, "Failed to get Vans for Route.");
             Log.e(LOG_TAG, "URL: " + buffer.toString());
@@ -94,11 +99,15 @@ final class SyncromaticsClient implements Handler.Callback {
 
         //Log.d(LOG_TAG, "This many Times fetched: " + result.size());
 
+        Message.obtain(requester, 0,
+                       new Global.ArrivalTimeResults(result))
+                .sendToTarget();
+/*
         requester
                 .obtainMessage(0,
-                        new Global.ArrivalTimeResults(result))
+                               new Global.ArrivalTimeResults(result))
                 .sendToTarget();
-
+*/
         return true;
     }
 
@@ -120,10 +129,11 @@ final class SyncromaticsClient implements Handler.Callback {
                     .get("Predictions").getAsJsonArray()
                     .get(0).getAsJsonObject();
 
-            result = new ArrivalTime(
-                    stop,
-                    route,
-                    predictionObj.get("Minutes").getAsInt());
+            result = new ArrivalTime(stop,
+                                     route,
+                                     predictionObj
+                                             .get("Minutes")
+                                             .getAsInt());
 
             reader.close();
 
