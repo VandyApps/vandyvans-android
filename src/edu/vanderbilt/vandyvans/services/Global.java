@@ -84,11 +84,13 @@ public final class Global extends android.app.Application {
         VandyClientsSingleton(HandlerThread serviceThread, Context ctx) {
             vandyVansClient = new Handler(serviceThread.getLooper(),
                                           new VandyVansClient());
-            vandyVansClient.sendMessage(Message.obtain(null, 0, new Initialize(ctx)));
+            Message.obtain(vandyVansClient, 0,
+                           new Initialize(ctx)).sendToTarget();
 
             syncromaticsClient = new Handler(serviceThread.getLooper(),
                                              new SyncromaticsClient());
-            syncromaticsClient.sendMessage(Message.obtain(null, 0, new Initialize(ctx)));
+            Message.obtain(syncromaticsClient, 0,
+                           new Initialize(ctx)).sendToTarget();
         }
 
         @Override
