@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Button;
 import com.google.inject.Inject;
 import edu.vanderbilt.vandyvans.models.Report;
-import edu.vanderbilt.vandyvans.services.Global;
 import edu.vanderbilt.vandyvans.services.VandyClients;
 import roboguice.activity.RoboActivity;
 import roboguice.inject.InjectView;
@@ -43,16 +42,12 @@ public final class AboutsActivity extends RoboActivity {
         mFeedbackReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivityForResult(
-                        new Intent()
-                                .setClass(AboutsActivity.this,
-                                          FormActivity.class)
-                                .putExtra(TAG_FORMTYPE, TAG_FEED)
-                                .putExtra(FormActivity.TAG_FORMTITLE,
-                                          "Send Feedback")
-                                .putExtra(FormActivity.TAG_FORMBODYHINT,
-                                          "thoughts on the app"),
-                        -1);
+                final Intent i = new Intent(AboutsActivity.this,
+                                            FormActivity.class);
+                i.putExtra(TAG_FORMTYPE, TAG_FEED);
+                i.putExtra(FormActivity.TAG_FORMTITLE, "Send Feedback");
+                i.putExtra(FormActivity.TAG_FORMBODYHINT, "thoughts on the app");
+                startActivityForResult(i, -1);
             }
         });
 
