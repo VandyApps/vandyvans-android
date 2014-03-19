@@ -4,7 +4,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +13,14 @@ import android.widget.ListView;
 
 import edu.vanderbilt.vandyvans.models.Stop;
 import edu.vanderbilt.vandyvans.models.Stops;
+import roboguice.fragment.RoboFragment;
+import roboguice.inject.InjectView;
 
-public final class StopsFragment extends Fragment implements OnItemClickListener {
+public final class StopsFragment extends RoboFragment implements OnItemClickListener {
 
-    private ListView mStopList;
+    @InjectView(R.id.listView1) private ListView mStopList;
+
+    //private ListView mStopList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saved) {
@@ -32,7 +35,7 @@ public final class StopsFragment extends Fragment implements OnItemClickListener
         shortList.addAll(Stops.getShortList());
         shortList.add(Stops.buildSimpleStop(-1, "Other Stops"));
         
-        mStopList = (ListView) getView().findViewById(R.id.listView1);
+        //mStopList = (ListView) getView().findViewById(R.id.listView1);
         
         mStopList.setAdapter(ArrayAdapterBuilder
                 .fromCollection(shortList)

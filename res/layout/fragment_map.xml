@@ -1,49 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:id="@+id/relative1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/light_gold" >
-    </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/linear1"
-        style="@android:attr/buttonBarStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:alpha="0.8"
-        android:background="#0000ff"
-        android:orientation="horizontal"
-        android:padding="4dp" >
+            android:id="@+id/linear1"
+            style="@android:attr/buttonBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:alpha="0.8"
+            android:background="#0000ff"
+            android:orientation="horizontal"
+            android:padding="4dp">
 
         <Button
-            android:id="@+id/btn_blue"
-            style="@android:attr/buttonBarButtonStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="33"
-            android:text="@string/route_blue" />
+                android:id="@+id/btn_blue"
+                style="@android:attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="33"
+                android:text="@string/route_blue"/>
 
         <Button
-            android:id="@+id/btn_red"
-            style="@android:attr/buttonBarButtonStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="33"
-            android:text="@string/route_red" />
+                android:id="@+id/btn_red"
+                style="@android:attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="33"
+                android:text="@string/route_red"/>
 
         <Button
-            android:id="@+id/btn_green"
-            style="@android:attr/buttonBarButtonStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="33"
-            android:text="@string/route_green" />
+                android:id="@+id/btn_green"
+                style="@android:attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="33"
+                android:text="@string/route_green"/>
     </LinearLayout>
 
 </RelativeLayout>

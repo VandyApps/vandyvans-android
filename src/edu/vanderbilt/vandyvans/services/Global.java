@@ -106,7 +106,6 @@ public final class Global extends android.app.Application {
 
     /**
      * Signal for requesting Stop data from the VandyVans.com API.
-     * Send to `Global.vandyVansClient()` and listen for the reply.
      *
      * Reply: `StopResults`
      *
@@ -185,13 +184,26 @@ public final class Global extends android.app.Application {
         }
     }
 
+    public static final class Failure {
+        public final Object    originalMessage;
+        public final Exception error;
+        public final String    extraInfo;
+        public Failure(Object _msg,
+                       Exception _error,
+                       String _info) {
+            originalMessage = _msg;
+            error           = _error;
+            extraInfo       = _info;
+        }
+    }
+
     static final class Initialize {
         final Context ctx;
         public Initialize(Context _ctx) {
             ctx = _ctx;
         }
     }
-    
+
     static InputStream get(String url) throws IOException {
         return new URL(url).openStream();
     }
