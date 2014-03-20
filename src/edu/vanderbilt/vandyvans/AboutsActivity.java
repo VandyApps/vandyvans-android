@@ -3,6 +3,7 @@ package edu.vanderbilt.vandyvans;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import com.google.inject.Inject;
@@ -35,7 +36,7 @@ public final class AboutsActivity extends RoboActivity {
                 i.putExtra(TAG_FORMTYPE, TAG_BUG);
                 i.putExtra(FormActivity.TAG_FORMTITLE, "Report a Bug");
                 i.putExtra(FormActivity.TAG_FORMBODYHINT, "describe the bug");
-                startActivityForResult(i, -1);
+                startActivityForResult(i, 1);
             }
         });
 
@@ -47,7 +48,7 @@ public final class AboutsActivity extends RoboActivity {
                 i.putExtra(TAG_FORMTYPE, TAG_FEED);
                 i.putExtra(FormActivity.TAG_FORMTITLE, "Send Feedback");
                 i.putExtra(FormActivity.TAG_FORMBODYHINT, "thoughts on the app");
-                startActivityForResult(i, -1);
+                startActivityForResult(i, 1);
             }
         });
 
@@ -72,6 +73,7 @@ public final class AboutsActivity extends RoboActivity {
         Intent i = new Intent(ctx, AboutsActivity.class);
         ctx.startActivity(i);
     }
+
 
 
 }

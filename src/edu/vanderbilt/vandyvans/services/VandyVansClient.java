@@ -128,7 +128,7 @@ final class VandyVansClient implements Handler.Callback {
         try {
             writer.beginObject();
             writer.name("verifyHash")
-                    .value(""); // TODO
+                    .value(Global.encryptPassword("vandyvansapp"));
             writer.name("isBugReport")
                     .value(report.isBugReport? "TRUE" : "FALSE");
             writer.name("senderAddress")
