@@ -13,6 +13,7 @@ import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import com.google.android.gms.maps.MapFragment;
 import roboguice.activity.RoboFragmentActivity;
@@ -36,6 +37,11 @@ public final class StopActivity extends RoboFragmentActivity
      */
     ViewPager mViewPager;
 
+    final Fragment mStopFragment = new StopsFragment();
+    final RouteMapFragment mMapOverlay   = new RouteMapFragment();
+
+    MapController mapController;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +50,14 @@ public final class StopActivity extends RoboFragmentActivity
         // Set up the action bar.
         final ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+        final MapFragment map = (MapFragment) getFragmentManager()
+                .findFragmentById(R.id.map_fragment);
+
+        if (map != null) {
+            mapController = new MapController(map);
+            mMapOverlay.setController(mapController);
+        }
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the app.
@@ -75,6 +89,15 @@ public final class StopActivity extends RoboFragmentActivity
                     .setText(mSectionsPagerAdapter.getPageTitle(i))
                     .setTabListener(this));
         }
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        final MapFragment map = (MapFragment) getFragmentManager()
+                .findFragmentById(R.id.map_fragment);
 
     }
 
@@ -136,9 +159,9 @@ public final class StopActivity extends RoboFragmentActivity
             // getItem is called to instantiate the fragment for the given page.
             switch(position) {
             case 0:
-                return new StopsFragment();
+                return mStopFragment;
             case 1:
-                return new RouteMapFragment();
+                return mMapOverlay;
             default:
                 return null;
             }

@@ -13,11 +13,15 @@ import edu.vanderbilt.vandyvans.models.Route;
 import edu.vanderbilt.vandyvans.models.Stop;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringWriter;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
 * Created by athran on 3/16/14.
@@ -45,7 +49,7 @@ final class VandyVansClient implements Handler.Callback {
                     ((Global.FetchWaypoints) msg.obj).route);
 
         else if (msg.obj instanceof Report)
-            return postReport((Report) msg.obj);
+            return true; //postReport((Report) msg.obj); TODO
 
         else return false;
     }
@@ -122,6 +126,37 @@ final class VandyVansClient implements Handler.Callback {
     }
 
     private boolean postReport(Report report) {
+
+        try {
+
+            //final Map<String,String> params = generateKeyValuedOutput(report);
+            final String jsonOutput = generateJsonOutput(report);
+
+            final BufferedReader respReader = new BufferedReader(
+                    new InputStreamReader(
+                            //Global.postUrlRequest(REPORT_URL, params)
+                            Global.post(REPORT_URL, jsonOutput)
+                    ));
+
+            Log.i(LOG_TAG, "Vandy Vans server response for report.");
+            //Log.i(LOG_TAG, buffer.toString());
+            for (String line = respReader.readLine(); // Yeah motherfucker
+                 line != null;
+                 line = respReader.readLine()) {
+                Log.i(LOG_TAG, line);
+            }
+
+        } catch (Exception e) {
+            Log.e(LOG_TAG, "Failed to send report");
+            Log.e(LOG_TAG, report.toString());
+            //Log.e(LOG_TAG, buffer.toString());
+            Log.e(LOG_TAG, e.getMessage());
+        }
+
+        return true;
+    }
+
+    private String generateJsonOutput(Report report) {
         final StringWriter buffer = new StringWriter();
         final JsonWriter writer = new JsonWriter(buffer);
 
@@ -138,28 +173,21 @@ final class VandyVansClient implements Handler.Callback {
             writer.name("notifyWhenResolved")
                     .value(report.notifyWhenResolved);
             writer.endObject();
-
-            BufferedReader respReader = new BufferedReader(
-                    new InputStreamReader(
-                            Global.post(
-                                    REPORT_URL,
-                                    buffer.toString())));
-
-            Log.i(LOG_TAG, "Vandy Vans server response for report.");
-            for (String line = respReader.readLine(); // Yeah motherfucker
-                 line != null;
-                 line = respReader.readLine()) {
-                Log.i(LOG_TAG, line);
-            }
-
-        } catch (Exception e) {
-            Log.e(LOG_TAG, "Failed to send report");
-            Log.e(LOG_TAG, report.toString());
-            Log.e(LOG_TAG, buffer.toString());
-            Log.e(LOG_TAG, e.getMessage());
+        } catch (IOException e) {
+            return "";
         }
 
-        return true;
+        return buffer.toString();
+    }
+
+    private Map<String,String> generateKeyValuedOutput(Report report) {
+        final Map<String,String> params = new HashMap<String,String>();
+        params.put("verifyHash"        , Global.encryptPassword("vandyvansapp"));
+        params.put("isBugReport"       , report.isBugReport? "TRUE" : "FALSE");
+        params.put("senderAddress"     , report.senderAddress);
+        params.put("body"              , report.bodyOfReport);
+        params.put("notifyWhenResolved", report.notifyWhenResolved? "TRUE" : "FALSE");
+        return params;
     }
 
 }

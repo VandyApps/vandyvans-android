@@ -22,6 +22,7 @@ public final class FormActivity extends RoboActivity {
     static final String TAG_FORMBODYHINT = "form_body_hint";
     static final String RESULT_EMAIL = "result_email";
     static final String RESULT_BODY = "result_body";
+    static final int    RESULT_EXIST = 9090;
 
     @InjectView(R.id.textView1) private TextView mFormTitle;
     @InjectView(R.id.editText)  private EditText mEmailField;
@@ -36,6 +37,7 @@ public final class FormActivity extends RoboActivity {
         final FormConfig conf = readConfig(getIntent().getExtras());
         mFormTitle.setText(conf.formTitle);
         mBodyField.setHint(conf.bodyHint);
+        setResult(RESULT_CANCELED);
 
         mSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,7 +53,7 @@ public final class FormActivity extends RoboActivity {
 
                 } else {
                     setResult(
-                            Activity.RESULT_OK,
+                            RESULT_EXIST,
                             getIntent()
                                     .putExtra(RESULT_EMAIL, email)
                                     .putExtra(RESULT_BODY, body));

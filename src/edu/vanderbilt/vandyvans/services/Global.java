@@ -7,15 +7,18 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Formatter;
 import java.util.List;
+import java.util.Map;
 
 import android.content.Context;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Message;
+import android.util.Log;
 import com.google.inject.Binder;
 import com.google.inject.Module;
 import com.google.inject.Provider;
@@ -36,6 +39,9 @@ import roboguice.RoboGuice;
  *
  */
 public final class Global extends android.app.Application {
+
+    public static final double DEFAULT_LONGITUDE = -86.803889;
+    public static final double DEFAULT_LATITUDE = 36.147381;
 
     private VandyClientsSingleton mClientSingleton;
 
@@ -221,6 +227,29 @@ public final class Global extends android.app.Application {
         Writer writer = new OutputStreamWriter(conn.getOutputStream());
         writer.write(params);
         writer.flush();
+
+        return conn.getInputStream();
+    }
+
+    static InputStream postUrlRequest(String url, Map<String,String> params) throws IOException {
+        StringBuilder builder = new StringBuilder(url);
+        builder.append("?");
+
+        for (String key : params.keySet()) {
+            builder
+                    .append(key)
+                    .append("=")
+                    .append(URLEncoder.encode(params.get(key),
+                                              "UTF-8"))
+                    .append("&");
+        }
+
+        builder.deleteCharAt(builder.length()-1);
+
+        Log.i("VandyVansClient", builder.toString());
+        URLConnection conn = new URL(builder.toString()).openConnection();
+        conn.setDoInput(true);
+        conn.setUseCaches(false);
 
         return conn.getInputStream();
     }

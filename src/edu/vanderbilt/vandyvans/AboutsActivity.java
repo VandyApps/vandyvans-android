@@ -28,6 +28,8 @@ public final class AboutsActivity extends RoboActivity {
         super.onCreate(saved);
         setContentView(R.layout.activity_about);
 
+        if (clients == null) throw new IllegalStateException("Vandy Clients is null");
+
         mBugReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,6 +60,9 @@ public final class AboutsActivity extends RoboActivity {
     protected void onActivityResult(int requestCode,
                                     int resultCode,
                                     Intent data) {
+
+        if (resultCode == RESULT_CANCELED) { return; }
+
         clients.vandyVans()
                 .obtainMessage(
                         0,
