@@ -5,17 +5,20 @@ import java.util.Locale;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.inject.Inject;
+import edu.vanderbilt.vandyvans.models.Routes;
+import edu.vanderbilt.vandyvans.services.VandyClients;
 import roboguice.activity.RoboFragmentActivity;
 import roboguice.inject.InjectView;
 
@@ -37,10 +40,17 @@ public final class StopActivity extends RoboFragmentActivity
      */
     ViewPager mViewPager;
 
-    final Fragment mStopFragment = new StopsFragment();
-    final RouteMapFragment mMapOverlay   = new RouteMapFragment();
+    final Fragment      mStopFragment = new StopsFragment();
+    final SupportMapFragment mMapFrag = new SupportMapFragment();
 
     MapController mapController;
+
+    @InjectView(R.id.linear1)   LinearLayout mBar;
+    @InjectView(R.id.btn_blue)  Button       mBlueButton;
+    @InjectView(R.id.btn_red)   Button       mRedButton;
+    @InjectView(R.id.btn_green) Button       mGreenButton;
+
+    @Inject VandyClients clients;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,12 +61,15 @@ public final class StopActivity extends RoboFragmentActivity
         final ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-        final MapFragment map = (MapFragment) getFragmentManager()
-                .findFragmentById(R.id.map_fragment);
-
-        if (map != null) {
-            mapController = new MapController(map);
-            mMapOverlay.setController(mapController);
+        if (mMapFrag != null) {
+            mapController = new MapController(mMapFrag,
+                                              mBar,
+                                              mBlueButton,
+                                              mRedButton,
+                                              mGreenButton,
+                                              clients);
+        } else {
+            // TODO graceful fallback
         }
 
         // Create the adapter that will return a fragment for each of the three
@@ -96,9 +109,9 @@ public final class StopActivity extends RoboFragmentActivity
     protected void onResume() {
         super.onResume();
 
-        final MapFragment map = (MapFragment) getFragmentManager()
-                .findFragmentById(R.id.map_fragment);
-
+        // Because of the way Fragments and Views are created, we can't
+        // work with the map until `onResume`
+        mapController.routeSelected(Routes.BLUE);
     }
 
     @Override
@@ -130,10 +143,17 @@ public final class StopActivity extends RoboFragmentActivity
     }
     
     @Override
-    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
+    public void onTabSelected(final ActionBar.Tab tab, FragmentTransaction ft) {
         // When the given tab is selected, switch to the corresponding page in
         // the ViewPager.
+        if (tab.getPosition() == 0) {
+            mapController.hideOverlay();
+        } else if (tab.getPosition() == 1) {
+            mapController.showOverlay();
+        }
+
         mViewPager.setCurrentItem(tab.getPosition());
+
     }
 
     @Override
@@ -161,7 +181,7 @@ public final class StopActivity extends RoboFragmentActivity
             case 0:
                 return mStopFragment;
             case 1:
-                return mMapOverlay;
+                return mMapFrag;
             default:
                 return null;
             }

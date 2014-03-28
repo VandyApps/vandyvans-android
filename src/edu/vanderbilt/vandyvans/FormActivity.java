@@ -1,6 +1,5 @@
 package edu.vanderbilt.vandyvans;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -37,6 +36,10 @@ public final class FormActivity extends RoboActivity {
         final FormConfig conf = readConfig(getIntent().getExtras());
         mFormTitle.setText(conf.formTitle);
         mBodyField.setHint(conf.bodyHint);
+
+        // Set the default result code. When user press the back button, this
+        // code will be returned by the calling activity. When the submit
+        // button is pressed, the proper result code will be set.
         setResult(RESULT_CANCELED);
 
         mSubmit.setOnClickListener(new View.OnClickListener() {
