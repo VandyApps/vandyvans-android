@@ -40,8 +40,9 @@ import roboguice.RoboGuice;
  */
 public final class Global extends android.app.Application {
 
-    public static final double DEFAULT_LONGITUDE = -86.803889;
-    public static final double DEFAULT_LATITUDE  = 36.147381;
+    //https://maps.google.com/?ll=36.143905,-86.805811&spn=0.012545,0.024097&t=h&z=16
+    public static final double DEFAULT_LONGITUDE = -86.805811;
+    public static final double DEFAULT_LATITUDE  = 36.143905;
     public static final String APP_LOG_ID        = "VandyVans";
 
     private VandyClientsSingleton mClientSingleton;

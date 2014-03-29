@@ -13,6 +13,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.maps.model.PolylineOptionsCreator;
 
 import edu.vanderbilt.vandyvans.models.FloatPair;
@@ -109,8 +110,17 @@ public class MapController implements Handler.Callback,
     }
 
     private boolean drawWaypoints(Global.WaypointResults result) {
+        GoogleMap map = mMapFragment.getMap();
+        if (map == null) { return true; }
 
+        PolylineOptions polyline = new PolylineOptions();
 
+        for (FloatPair point : result.waypoints) {
+            polyline.add(new LatLng(point.lat,
+                                    point.lon));
+        }
+
+        map.addPolyline(polyline);
         return true;
     }
 
@@ -138,11 +148,12 @@ public class MapController implements Handler.Callback,
             map.addMarker(new MarkerOptions()
                                   .position(new LatLng(v.location.lat,
                                                        v.location.lon))
+                                  .title("" + v.percentFull + "%")
                                   .draggable(false)
                                   .flat(true)
                                   .icon(BitmapDescriptorFactory
                                                 .fromResource(R.drawable.van_icon))
-                                  .anchor(0.5f,0.5f));
+                                  .anchor(0.5f, 0.5f));
         }
 
         return true;
