@@ -14,7 +14,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.android.gms.maps.model.PolylineOptionsCreator;
 
 import edu.vanderbilt.vandyvans.models.FloatPair;
 import edu.vanderbilt.vandyvans.models.Route;
@@ -33,8 +32,9 @@ import static edu.vanderbilt.vandyvans.services.Global.APP_LOG_ID;
 public class MapController implements Handler.Callback,
                                       View.OnClickListener {
 
-    public static final int    DEFAULT_ZOOM = 15;
-    public static final String LOG_ID       = "MapController";
+    public static final float  DEFAULT_ZOOM  = 14.5f;
+    public static final float  DEFAULT_WIDTH = 5;
+    public static final String LOG_ID        = "MapController";
 
     private final Handler      bridge = new Handler(this);
     private final VandyClients clients;
@@ -44,6 +44,8 @@ public class MapController implements Handler.Callback,
     private final Button             mBlueButton;
     private final Button             mRedButton;
     private final Button             mGreenButton;
+
+    private Route mCurrentRoute;
 
     public MapController(SupportMapFragment mapFrag,
                          LinearLayout       overlayBar,
@@ -64,6 +66,7 @@ public class MapController implements Handler.Callback,
         mGreenButton .setOnClickListener(this);
 
         clients = _clients;
+        mCurrentRoute = Routes.BLUE;
     }
 
     @Override
@@ -84,6 +87,9 @@ public class MapController implements Handler.Callback,
         if (clients == null) {
             throw new IllegalStateException("VandyClient is null");
         }
+
+        mCurrentRoute = route;
+
         Message.obtain(clients.vandyVans(), 0,
                        new Global.FetchWaypoints(bridge, route))
                 .sendToTarget();
@@ -108,12 +114,18 @@ public class MapController implements Handler.Callback,
                 ));
 
     }
-
+    
     private boolean drawWaypoints(Global.WaypointResults result) {
         GoogleMap map = mMapFragment.getMap();
         if (map == null) { return true; }
 
         PolylineOptions polyline = new PolylineOptions();
+        polyline.color(
+                (mCurrentRoute == Routes.BLUE)  ? 0xff0000ff :
+                (mCurrentRoute == Routes.RED)   ? 0xffff0000 :
+                (mCurrentRoute == Routes.GREEN) ? 0xff00ff00 :
+                0xff000000);
+        polyline.width(DEFAULT_WIDTH);
 
         for (FloatPair point : result.waypoints) {
             polyline.add(new LatLng(point.lat,

@@ -61,16 +61,12 @@ public final class StopActivity extends RoboFragmentActivity
         final ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-        if (mMapFrag != null) {
-            mapController = new MapController(mMapFrag,
-                                              mBar,
-                                              mBlueButton,
-                                              mRedButton,
-                                              mGreenButton,
-                                              clients);
-        } else {
-            // TODO graceful fallback
-        }
+        mapController = new MapController(mMapFrag,
+                                          mBar,
+                                          mBlueButton,
+                                          mRedButton,
+                                          mGreenButton,
+                                          clients);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the app.
