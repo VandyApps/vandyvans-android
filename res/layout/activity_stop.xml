@@ -1,6 +1,7 @@
 <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
+        android:animateLayoutChanges="true"
         android:layout_height="match_parent"
         android:layout_width="match_parent">
 
@@ -12,7 +13,7 @@
 
     <LinearLayout
             android:id="@+id/linear1"
-            android:visibility="gone"
+            android:visibility="invisible"
             style="@android:attr/buttonBarStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

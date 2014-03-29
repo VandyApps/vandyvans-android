@@ -41,7 +41,8 @@ import roboguice.RoboGuice;
 public final class Global extends android.app.Application {
 
     public static final double DEFAULT_LONGITUDE = -86.803889;
-    public static final double DEFAULT_LATITUDE = 36.147381;
+    public static final double DEFAULT_LATITUDE  = 36.147381;
+    public static final String APP_LOG_ID        = "VandyVans";
 
     private VandyClientsSingleton mClientSingleton;
 
@@ -52,7 +53,9 @@ public final class Global extends android.app.Application {
     }
 
     /**
-     * Should be called by a subclass of Application.
+     * Called in the `onCreate` of android.app.Application when the process
+     * for this app is first created. This will initialize the service
+     * infrastructure that provide data to the UI.
      */
     void initializeGlobalState() {
 
@@ -131,6 +134,7 @@ public final class Global extends android.app.Application {
     }
 
     /**
+     * To:    VandyVans Client
      * Reply: `WaypointResults`
      */
     public static final class FetchWaypoints {
@@ -157,6 +161,7 @@ public final class Global extends android.app.Application {
     }
 
     /**
+     * To:    Syncromatics Client
      * Reply: `VanResults`
      */
     public static final class FetchVans {
@@ -169,6 +174,7 @@ public final class Global extends android.app.Application {
     }
 
     /**
+     * To:    Syncromatics Client
      * Reply: `ArrivalTimeResults`
      */
     public static final class FetchArrivalTimes {
