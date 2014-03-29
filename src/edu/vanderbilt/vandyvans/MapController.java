@@ -23,6 +23,8 @@ import edu.vanderbilt.vandyvans.models.Van;
 import edu.vanderbilt.vandyvans.services.Global;
 import edu.vanderbilt.vandyvans.services.VandyClients;
 
+import static edu.vanderbilt.vandyvans.services.Global.APP_LOG_ID;
+
 /**
  *
  * Created by athran on 3/19/14.
@@ -131,7 +133,7 @@ public class MapController implements Handler.Callback,
         GoogleMap map = mMapFragment.getMap();
         if (map == null) { return true; }
 
-        Log.i(LOG_ID, "Received this many Van results: " + result.vans.size());
+        Log.i(APP_LOG_ID, LOG_ID + " | Received this many Van results: " + result.vans.size());
         for (Van v : result.vans) {
             map.addMarker(new MarkerOptions()
                                   .position(new LatLng(v.location.lat,

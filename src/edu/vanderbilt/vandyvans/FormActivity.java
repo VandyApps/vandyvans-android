@@ -9,7 +9,6 @@ import android.widget.Toast;
 import roboguice.activity.RoboActivity;
 import roboguice.inject.InjectView;
 
-
 /**
  * The form for submitting feedbacks and bugreports.
  *

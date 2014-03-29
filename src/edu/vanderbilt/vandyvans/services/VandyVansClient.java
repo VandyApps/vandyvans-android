@@ -17,11 +17,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringWriter;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import static edu.vanderbilt.vandyvans.services.Global.APP_LOG_ID;
 
 /**
 * Created by athran on 3/16/14.
@@ -55,7 +56,7 @@ final class VandyVansClient implements Handler.Callback {
     }
 
     private boolean init() {
-        Log.d(LOG_TAG, "Initialization");
+        Log.d(APP_LOG_ID, LOG_TAG + " | Initialization");
         return true;
     }
 
@@ -86,9 +87,9 @@ final class VandyVansClient implements Handler.Callback {
                     .sendToTarget();
 
         } catch (Exception e) {
-            Log.e(LOG_TAG, "Failed to get Stops for Route.");
-            Log.e(LOG_TAG, "URL: " + buffer.toString());
-            Log.e(LOG_TAG, e.getMessage());
+            Log.e(APP_LOG_ID, LOG_TAG + " | Failed to get Stops for Route.");
+            Log.e(APP_LOG_ID, LOG_TAG + " | URL: " + buffer.toString());
+            Log.e(APP_LOG_ID, e .getMessage());
         }
         return true;
     }
@@ -118,9 +119,9 @@ final class VandyVansClient implements Handler.Callback {
                     .sendToTarget();
 
         } catch (Exception e) {
-            Log.e(LOG_TAG, "Failed to get Waypoints for Route.");
-            Log.e(LOG_TAG, "URL: " + buffer.toString());
-            Log.e(LOG_TAG, e.getMessage());
+            Log.e(APP_LOG_ID, LOG_TAG + " | Failed to get Waypoints for Route.");
+            Log.e(APP_LOG_ID, LOG_TAG + " | URL: " + buffer.toString());
+            Log.e(APP_LOG_ID, e.getMessage());
         }
         return true;
     }
@@ -138,19 +139,19 @@ final class VandyVansClient implements Handler.Callback {
                             Global.post(REPORT_URL, jsonOutput)
                     ));
 
-            Log.i(LOG_TAG, "Vandy Vans server response for report.");
+            Log.i(APP_LOG_ID, LOG_TAG + " | Vandy Vans server response for report.");
             //Log.i(LOG_TAG, buffer.toString());
             for (String line = respReader.readLine(); // Yeah motherfucker
                  line != null;
                  line = respReader.readLine()) {
-                Log.i(LOG_TAG, line);
+                Log.i(APP_LOG_ID, line);
             }
 
         } catch (Exception e) {
-            Log.e(LOG_TAG, "Failed to send report");
-            Log.e(LOG_TAG, report.toString());
+            Log.e(APP_LOG_ID, LOG_TAG + " | Failed to send report");
+            Log.e(APP_LOG_ID, report.toString());
             //Log.e(LOG_TAG, buffer.toString());
-            Log.e(LOG_TAG, e.getMessage());
+            Log.e(APP_LOG_ID, e.getMessage());
         }
 
         return true;

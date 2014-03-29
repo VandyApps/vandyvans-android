@@ -18,6 +18,8 @@ import java.io.Reader;
 import java.util.LinkedList;
 import java.util.List;
 
+import static edu.vanderbilt.vandyvans.services.Global.APP_LOG_ID;
+
 /**
 * Created by athran on 3/16/14.
 */
@@ -48,7 +50,7 @@ final class SyncromaticsClient implements Handler.Callback {
     }
 
     private boolean init() {
-        Log.d(LOG_TAG, "Initialization");
+        Log.d(APP_LOG_ID, LOG_TAG + " | Initialization");
         return true;
     }
 
@@ -84,9 +86,9 @@ final class SyncromaticsClient implements Handler.Callback {
                     .sendToTarget();
 */
         } catch (Exception e) {
-            Log.e(LOG_TAG, "Failed to get Vans for Route.");
-            Log.e(LOG_TAG, "URL: " + buffer.toString());
-            Log.e(LOG_TAG, e.getMessage());
+            Log.e(APP_LOG_ID, LOG_TAG + " | Failed to get Vans for Route.");
+            Log.e(APP_LOG_ID, LOG_TAG + " | URL: " + buffer.toString());
+            Log.e(APP_LOG_ID, e.getMessage());
         }
         return true;
     }
