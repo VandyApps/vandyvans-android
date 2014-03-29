@@ -114,7 +114,7 @@ public class MapController implements Handler.Callback,
                 ));
 
     }
-    
+
     private boolean drawWaypoints(Global.WaypointResults result) {
         GoogleMap map = mMapFragment.getMap();
         if (map == null) { return true; }

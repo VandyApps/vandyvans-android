@@ -74,17 +74,27 @@ final class SyncromaticsClient implements Handler.Callback {
                                 obj.get(Van.TAG_LOND).getAsDouble())));
             }
 
+            /* JAVA 8
+
+            List<Van> result =
+                    PARSER.parse(reader).getAsJsonArray().stream()
+                            .map((elem) -> elem.getAsJsonObject())
+                            .map((obj) -> new Van(
+                                    obj.get(Van.TAG_ID).getAsInt(),
+                                    obj.get(Van.TAG_PERCENT_FULL).getAsInt(),
+                                    new FloatPair(
+                                            obj.get(Van.TAG_LATS).getAsDouble(),
+                                            obj.get(Van.TAG_LOND).getAsDouble())))
+                            .collect(Collectors.toList());
+            */
+
+
             reader.close();
 
             Message.obtain(requester, 0,
                            new Global.VanResults(result))
                     .sendToTarget();
-/*
-            requester
-                    .obtainMessage(0,
-                                   new Global.VanResults(result))
-                    .sendToTarget();
-*/
+
         } catch (Exception e) {
             Log.e(APP_LOG_ID, LOG_TAG + " | Failed to get Vans for Route.");
             Log.e(APP_LOG_ID, LOG_TAG + " | URL: " + buffer.toString());
