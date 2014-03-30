@@ -17,8 +17,8 @@ import edu.vanderbilt.vandyvans.services.VandyClients;
 public final class AboutsActivity extends RoboActivity {
 
     private static final String TAG_FORMTYPE = "formtype";
-    private static final int TAG_BUG = 1000;
-    private static final int TAG_FEED = 1111;
+    private static final int    TAG_BUG      = 1000;
+    private static final int    TAG_FEED     = 1111;
 
     @InjectView(R.id.button1) private Button mBugReport;
     @InjectView(R.id.button2) private Button mFeedbackReport;
@@ -37,8 +37,8 @@ public final class AboutsActivity extends RoboActivity {
             public void onClick(View view) {
                 final Intent i = new Intent(AboutsActivity.this,
                                             FormActivity.class);
-                i.putExtra(TAG_FORMTYPE, TAG_BUG);
-                i.putExtra(FormActivity.TAG_FORMTITLE, "Report a Bug");
+                i.putExtra(TAG_FORMTYPE                 , TAG_BUG);
+                i.putExtra(FormActivity.TAG_FORMTITLE   , "Report a Bug");
                 i.putExtra(FormActivity.TAG_FORMBODYHINT, "describe the bug");
                 startActivityForResult(i, 1);
             }
@@ -49,8 +49,8 @@ public final class AboutsActivity extends RoboActivity {
             public void onClick(View view) {
                 final Intent i = new Intent(AboutsActivity.this,
                                             FormActivity.class);
-                i.putExtra(TAG_FORMTYPE, TAG_FEED);
-                i.putExtra(FormActivity.TAG_FORMTITLE, "Send Feedback");
+                i.putExtra(TAG_FORMTYPE                 , TAG_FEED);
+                i.putExtra(FormActivity.TAG_FORMTITLE   , "Send Feedback");
                 i.putExtra(FormActivity.TAG_FORMBODYHINT, "thoughts on the app");
                 startActivityForResult(i, 1);
             }
@@ -59,8 +59,8 @@ public final class AboutsActivity extends RoboActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode,
-                                    int resultCode,
+    protected void onActivityResult(int    requestCode,
+                                    int    resultCode,
                                     Intent data) {
 
         if (resultCode == RESULT_CANCELED) { return; }

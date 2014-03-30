@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -54,7 +55,8 @@ public class MapController implements Handler.Callback,
     private final Button             mRedButton;
     private final Button             mGreenButton;
 
-    private Route mCurrentRoute;
+    private Route        mCurrentRoute;
+    private CameraUpdate mDefaultCamera = null;
 
     /**
      * The sole constructor.
@@ -144,12 +146,7 @@ public class MapController implements Handler.Callback,
         if (map == null) { return; }
 
         map.clear();
-        map.animateCamera(
-                CameraUpdateFactory.newLatLngZoom(
-                        new LatLng(Global.DEFAULT_LATITUDE,
-                                   Global.DEFAULT_LONGITUDE),
-                        DEFAULT_ZOOM
-                ));
+        map.animateCamera(getDefaultCameraUpdate());
         map.setMyLocationEnabled(true);
     }
 
@@ -241,6 +238,17 @@ public class MapController implements Handler.Callback,
         }
 
         return true;
+    }
+
+    private CameraUpdate getDefaultCameraUpdate() {
+        if (mDefaultCamera == null) {
+            mDefaultCamera =
+                    CameraUpdateFactory.newLatLngZoom(
+                            new LatLng(Global.DEFAULT_LATITUDE,
+                                       Global.DEFAULT_LONGITUDE),
+                            DEFAULT_ZOOM);
+        }
+        return mDefaultCamera;
     }
 
 }

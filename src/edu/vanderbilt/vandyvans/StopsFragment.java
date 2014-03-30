@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import roboguice.fragment.RoboFragment;
@@ -17,15 +16,19 @@ import roboguice.inject.InjectView;
 import edu.vanderbilt.vandyvans.models.Stop;
 import edu.vanderbilt.vandyvans.models.Stops;
 
-public final class StopsFragment extends RoboFragment implements OnItemClickListener {
+public final class StopsFragment
+        extends    RoboFragment
+        implements AdapterView.OnItemClickListener {
 
     @InjectView(R.id.listView1) private ListView mStopList;
 
-    //private ListView mStopList;
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saved) {
-        return inflater.inflate(R.layout.fragment_stop, container, false);
+    public View onCreateView(LayoutInflater inflater,
+                             ViewGroup      container,
+                             Bundle         saved) {
+        return inflater.inflate(R.layout.fragment_stop,
+                                container,
+                                false);
     }
     
     @Override
@@ -35,9 +38,7 @@ public final class StopsFragment extends RoboFragment implements OnItemClickList
         List<Stop> shortList = new LinkedList<Stop>();
         shortList.addAll(Stops.getShortList());
         shortList.add(Stops.buildSimpleStop(-1, "Other Stops"));
-        
-        //mStopList = (ListView) getView().findViewById(R.id.listView1);
-        
+
         mStopList.setAdapter(ArrayAdapterBuilder
                 .fromCollection(shortList)
                 .withContext(getActivity())
@@ -53,7 +54,11 @@ public final class StopsFragment extends RoboFragment implements OnItemClickList
     }
 
     @Override
-    public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
+    public void onItemClick(AdapterView<?> adapter,
+                            View           view,
+                            int            position,
+                            long           id) {
+
         Stop selectedStop = (Stop) adapter.getItemAtPosition(position);
 
         if (selectedStop.id == -1) {

@@ -17,16 +17,16 @@ import roboguice.inject.InjectView;
  */
 public final class FormActivity extends RoboActivity {
 
-    static final String TAG_FORMTITLE = "form_title";
+    static final String TAG_FORMTITLE    = "form_title";
     static final String TAG_FORMBODYHINT = "form_body_hint";
-    static final String RESULT_EMAIL = "result_email";
-    static final String RESULT_BODY = "result_body";
-    static final int    RESULT_EXIST = 9090;
+    static final String RESULT_EMAIL     = "result_email";
+    static final String RESULT_BODY      = "result_body";
+    static final int    RESULT_EXIST     = 9090;
 
     @InjectView(R.id.textView1) private TextView mFormTitle;
     @InjectView(R.id.editText)  private EditText mEmailField;
     @InjectView(R.id.editText2) private EditText mBodyField;
-    @InjectView(R.id.button3)   private Button mSubmit;
+    @InjectView(R.id.button3)   private Button   mSubmit;
 
     @Override
     protected void onCreate(Bundle saved) {
@@ -46,7 +46,7 @@ public final class FormActivity extends RoboActivity {
             @Override
             public void onClick(View view) {
                 final String email = mEmailField.getText().toString();
-                final String body = mBodyField.getText().toString();
+                final String body  = mBodyField.getText().toString();
 
                 if (email == null || email.equals("")) {
                     showMessage("Please fill in your E-mail address");
@@ -82,7 +82,7 @@ public final class FormActivity extends RoboActivity {
 
         FormConfig(String _title, String _hint) {
             formTitle = _title;
-            bodyHint = _hint;
+            bodyHint  = _hint;
         }
     }
 

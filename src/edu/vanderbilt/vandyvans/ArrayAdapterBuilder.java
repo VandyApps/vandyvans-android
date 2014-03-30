@@ -137,10 +137,10 @@ public class ArrayAdapterBuilder<T> {
         String apply(U object);
     }
     
-    private Context mCtx = null;
-    private int mLayoutResource = -1;
-    private int mTextViewId = -1;
-    private List<T> mObjects;
+    private Context     mCtx            = null;
+    private int         mLayoutResource = -1;
+    private int         mTextViewId     = -1;
+    private List<T>     mObjects;
     private ToString<T> mStringer;
     
     private ArrayAdapterBuilder() {}
@@ -159,7 +159,7 @@ public class ArrayAdapterBuilder<T> {
         
         public MyArrayAdapter(
                 Context ctx, 
-                int resource,
+                int     resource,
                 List<V> objects) 
         {
             super(ctx, resource, objects);
@@ -168,8 +168,8 @@ public class ArrayAdapterBuilder<T> {
         
         public MyArrayAdapter(
                 Context context, 
-                int resource, 
-                int textViewResourceId, 
+                int     resource,
+                int     textViewResourceId,
                 List<V> objects) 
         {
             super(context, resource, textViewResourceId, objects);
@@ -186,12 +186,14 @@ public class ArrayAdapterBuilder<T> {
             return createViewFromResource(position, convertView, parent, mResource);
         }
         
-        private View createViewFromResource(int position, View convertView, ViewGroup parent,
-                int resource) {
+        private View createViewFromResource(int       position,
+                                            View      convertView,
+                                            ViewGroup parent,
+                                            int       resource) {
             View view;
             TextView text;
 
-            mInflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            mInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             
             if (convertView == null) {
                 view = mInflater.inflate(resource, parent, false);

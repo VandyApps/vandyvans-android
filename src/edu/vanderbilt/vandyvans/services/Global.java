@@ -128,11 +128,11 @@ public final class Global extends android.app.Application {
      * @author athran
      */
     public static final class FetchStops {
-        public final Route route;
+        public final Route   route;
         public final Handler from;
         public FetchStops(Handler _from, Route _r) {
             route = _r;
-            from = _from;
+            from  = _from;
         }
     }
 
@@ -141,11 +141,11 @@ public final class Global extends android.app.Application {
      * Reply: `WaypointResults`
      */
     public static final class FetchWaypoints {
-        public final Route route;
+        public final Route   route;
         public final Handler from;
         public FetchWaypoints(Handler _from, Route _r) {
             route = _r;
-            from = _from;
+            from  = _from;
         }
     }
     
@@ -168,11 +168,11 @@ public final class Global extends android.app.Application {
      * Reply: `VanResults`
      */
     public static final class FetchVans {
-        public final Route route;
+        public final Route   route;
         public final Handler from;
         public FetchVans(Handler _from, Route _r) {
             route = _r;
-            from = _from;
+            from  = _from;
         }
     }
 
@@ -181,7 +181,7 @@ public final class Global extends android.app.Application {
      * Reply: `ArrivalTimeResults`
      */
     public static final class FetchArrivalTimes {
-        public final Stop stop;
+        public final Stop    stop;
         public final Handler from;
         public FetchArrivalTimes(Handler _from, Stop _stop) {
             stop = _stop;

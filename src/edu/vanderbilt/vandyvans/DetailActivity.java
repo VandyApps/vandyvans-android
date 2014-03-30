@@ -25,7 +25,9 @@ import edu.vanderbilt.vandyvans.models.Stops;
 import edu.vanderbilt.vandyvans.services.Global;
 import edu.vanderbilt.vandyvans.services.VandyClients;
 
-public final class DetailActivity extends RoboActivity implements Handler.Callback {
+public final class DetailActivity
+        extends RoboActivity
+        implements Handler.Callback {
 
     private static final String TAG_ID = "stopId";
 
@@ -46,9 +48,9 @@ public final class DetailActivity extends RoboActivity implements Handler.Callba
     @InjectView(R.id.cb1)       private Switch      mReminderSwitch;
 
     private ReminderController reminderController;
-    private Handler controller;
-    private Stop stop;
-    @Inject VandyClients apiClient;
+    private Handler            controller;
+    private Stop               stop;
+    @Inject VandyClients       apiClient;
 
     @Override
     public void onCreate(Bundle saved) {
@@ -56,8 +58,8 @@ public final class DetailActivity extends RoboActivity implements Handler.Callba
         setContentView(R.layout.activity_stopdetail);
 
         // Setup controllers for a cleaner handling of the Views' state transitions.
-        mBlueGroup =  new ArrivalTimeViewHolder(mBlueRL,  mBlueDisp);
-        mRedGroup =   new ArrivalTimeViewHolder(mRedRL,   mRedDisp);
+        mBlueGroup =  new ArrivalTimeViewHolder(mBlueRL , mBlueDisp);
+        mRedGroup =   new ArrivalTimeViewHolder(mRedRL  , mRedDisp);
         mGreenGroup = new ArrivalTimeViewHolder(mGreenRL, mGreenDisp);
 
         // Hide everything except the progress bar while we wait for the
@@ -136,7 +138,7 @@ public final class DetailActivity extends RoboActivity implements Handler.Callba
 
     private static class ArrivalTimeViewHolder {
 
-        final View view;
+        final View     view;
         final TextView timeDisplay;
 
         ArrivalTimeViewHolder(View v, View disp) {
