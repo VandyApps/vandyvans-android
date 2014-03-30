@@ -26,6 +26,15 @@ import edu.vanderbilt.vandyvans.services.VandyClients;
 import static edu.vanderbilt.vandyvans.services.Global.APP_LOG_ID;
 
 /**
+ * Controls the behaviour of the map. Usually the activity would act as
+ * a controller, but we don't want to clutter the StopActivity with
+ * too much responsibility.
+ *
+ * This Controller is a master of the SupportMapFragment that fills the
+ * second slot of the ViewPager, the LinearLayout that is the bottom bar,
+ * and the three Buttons for selecting Routes. It captures the click
+ * events from the Buttons, fetches data from the services, and manipulates
+ * the map in response to the data.
  *
  * Created by athran on 3/19/14.
  */
@@ -37,7 +46,7 @@ public class MapController implements Handler.Callback,
     public static final String LOG_ID        = "MapController";
 
     private final Handler      bridge = new Handler(this);
-    private final VandyClients clients;
+    private final VandyClients mClients;
 
     private final SupportMapFragment mMapFragment;
     private final LinearLayout       mOverlayBar;
@@ -47,12 +56,22 @@ public class MapController implements Handler.Callback,
 
     private Route mCurrentRoute;
 
+    /**
+     * The sole constructor.
+     *
+     * @param mapFrag
+     * @param overlayBar
+     * @param blueBtn
+     * @param redBtn
+     * @param greenBtn
+     * @param clients
+     */
     public MapController(SupportMapFragment mapFrag,
                          LinearLayout       overlayBar,
                          Button             blueBtn,
                          Button             redBtn,
                          Button             greenBtn,
-                         VandyClients       _clients) {
+                         VandyClients       clients) {
         if (mapFrag == null) { throw new IllegalStateException("MapFragment is null"); }
         mMapFragment = mapFrag;
 
@@ -65,10 +84,20 @@ public class MapController implements Handler.Callback,
         mRedButton   .setOnClickListener(this);
         mGreenButton .setOnClickListener(this);
 
-        clients = _clients;
+        mClients      = clients;
         mCurrentRoute = Routes.BLUE;
     }
 
+    /**
+     * Handles the messages from the Services. Whenever the UI need any data, it will
+     * send a request to the Services. The Services will process the request, fetching
+     * the data from whatever source it has access to, then reply with the data.
+     *
+     * See: `routeSelected(route)`
+     *
+     * @param message
+     * @return
+     */
     @Override
     public boolean handleMessage(Message message) {
         if (message.obj instanceof Global.WaypointResults)
@@ -83,22 +112,31 @@ public class MapController implements Handler.Callback,
         return false;
     }
 
+    /**
+     * This method is called when one of the overlay buttons is clicked.
+     * Send messages to the Services, requesting data on Stops, route path,
+     * and van locations. Then clear and center the map.
+     *
+     * See: `onClick(view)`
+     *
+     * @param route
+     */
     public void routeSelected(Route route) {
-        if (clients == null) {
+        if (mClients == null) {
             throw new IllegalStateException("VandyClient is null");
         }
 
         mCurrentRoute = route;
 
-        Message.obtain(clients.vandyVans(), 0,
+        Message.obtain(mClients.vandyVans(), 0,
                        new Global.FetchWaypoints(bridge, route))
                 .sendToTarget();
 
-        Message.obtain(clients.vandyVans(), 0,
+        Message.obtain(mClients.vandyVans(), 0,
                        new Global.FetchStops(bridge, route))
                 .sendToTarget();
 
-        Message.obtain(clients.syncromatics(), 0,
+        Message.obtain(mClients.syncromatics(), 0,
                        new Global.FetchVans(bridge, route))
                 .sendToTarget();
 
@@ -113,6 +151,28 @@ public class MapController implements Handler.Callback,
                         DEFAULT_ZOOM
                 ));
         map.setMyLocationEnabled(true);
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view == mBlueButton) {
+            mOverlayBar.setBackgroundColor(
+                    view.getResources()
+                            .getColor(R.color.blue));
+            routeSelected(Routes.BLUE);
+
+        } else if (view == mRedButton) {
+            mOverlayBar.setBackgroundColor(
+                    view.getResources()
+                            .getColor(R.color.red));
+            routeSelected(Routes.RED);
+
+        } else if (view == mGreenButton) {
+            mOverlayBar.setBackgroundColor(
+                    view.getResources()
+                            .getColor(R.color.green));
+            routeSelected(Routes.GREEN);
+        }
     }
 
     public void showOverlay() {
@@ -183,25 +243,4 @@ public class MapController implements Handler.Callback,
         return true;
     }
 
-    @Override
-    public void onClick(View view) {
-        if (view == mBlueButton) {
-            mOverlayBar.setBackgroundColor(
-                    view.getResources()
-                            .getColor(R.color.blue));
-            routeSelected(Routes.BLUE);
-
-        } else if (view == mRedButton) {
-            mOverlayBar.setBackgroundColor(
-                    view.getResources()
-                            .getColor(R.color.red));
-            routeSelected(Routes.RED);
-
-        } else if (view == mGreenButton) {
-            mOverlayBar.setBackgroundColor(
-                    view.getResources()
-                            .getColor(R.color.green));
-            routeSelected(Routes.GREEN);
-        }
-    }
 }

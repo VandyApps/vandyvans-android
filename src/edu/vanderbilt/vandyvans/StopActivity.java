@@ -21,11 +21,11 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.inject.Inject;
+import roboguice.activity.RoboFragmentActivity;
+import roboguice.inject.InjectView;
 
 import edu.vanderbilt.vandyvans.services.Global;
 import edu.vanderbilt.vandyvans.services.VandyClients;
-import roboguice.activity.RoboFragmentActivity;
-import roboguice.inject.InjectView;
 
 public final class StopActivity extends RoboFragmentActivity
         implements ActionBar.TabListener {
