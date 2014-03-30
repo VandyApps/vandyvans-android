@@ -1,17 +1,5 @@
 package edu.vanderbilt.vandyvans.services;
 
-import android.os.Handler;
-import android.os.Message;
-import android.util.JsonWriter;
-import android.util.Log;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import edu.vanderbilt.vandyvans.models.FloatPair;
-import edu.vanderbilt.vandyvans.models.Report;
-import edu.vanderbilt.vandyvans.models.Route;
-import edu.vanderbilt.vandyvans.models.Stop;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -21,6 +9,20 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import android.os.Handler;
+import android.os.Message;
+import android.util.JsonWriter;
+import android.util.Log;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import edu.vanderbilt.vandyvans.models.FloatPair;
+import edu.vanderbilt.vandyvans.models.Report;
+import edu.vanderbilt.vandyvans.models.Route;
+import edu.vanderbilt.vandyvans.models.Stop;
 
 import static edu.vanderbilt.vandyvans.services.Global.APP_LOG_ID;
 

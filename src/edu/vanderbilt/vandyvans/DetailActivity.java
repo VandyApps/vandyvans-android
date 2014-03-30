@@ -1,5 +1,7 @@
 package edu.vanderbilt.vandyvans;
 
+import java.util.List;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,17 +14,16 @@ import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import java.util.List;
-
 import com.google.inject.Inject;
+import roboguice.activity.RoboActivity;
+import roboguice.inject.InjectView;
+
 import edu.vanderbilt.vandyvans.models.ArrivalTime;
 import edu.vanderbilt.vandyvans.models.Routes;
 import edu.vanderbilt.vandyvans.models.Stop;
 import edu.vanderbilt.vandyvans.models.Stops;
 import edu.vanderbilt.vandyvans.services.Global;
 import edu.vanderbilt.vandyvans.services.VandyClients;
-import roboguice.activity.RoboActivity;
-import roboguice.inject.InjectView;
 
 public final class DetailActivity extends RoboActivity implements Handler.Callback {
 

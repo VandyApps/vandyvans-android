@@ -19,15 +19,17 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Message;
 import android.util.Log;
+
 import com.google.inject.Binder;
 import com.google.inject.Module;
 import com.google.inject.Provider;
+import roboguice.RoboGuice;
+
 import edu.vanderbilt.vandyvans.models.ArrivalTime;
 import edu.vanderbilt.vandyvans.models.FloatPair;
 import edu.vanderbilt.vandyvans.models.Route;
 import edu.vanderbilt.vandyvans.models.Stop;
 import edu.vanderbilt.vandyvans.models.Van;
-import roboguice.RoboGuice;
 
 /**
  * Holds static references to the vital backend services which are accessible

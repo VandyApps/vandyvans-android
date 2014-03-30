@@ -15,14 +15,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
+
 import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.inject.Inject;
-import edu.vanderbilt.vandyvans.models.Routes;
+
 import edu.vanderbilt.vandyvans.services.Global;
 import edu.vanderbilt.vandyvans.services.VandyClients;
 import roboguice.activity.RoboFragmentActivity;
@@ -67,6 +66,7 @@ public final class StopActivity extends RoboFragmentActivity
         final ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
+        // Initialization of the map with proper settings
         mMapFrag = SupportMapFragment.newInstance(
                 new GoogleMapOptions()
                         .zoomControlsEnabled(false)
