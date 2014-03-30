@@ -146,7 +146,7 @@ public final class DetailActivity extends RoboActivity implements Handler.Callba
         void displayTime(int minutes) {
             timeDisplay.setText(
                     minutes +
-                            ((minutes <= 1) ? "minute" : " minutes"));
+                            ((minutes <= 1) ? " minute" : " minutes"));
         }
 
         void hide() {

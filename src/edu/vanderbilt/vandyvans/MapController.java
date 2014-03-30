@@ -112,7 +112,19 @@ public class MapController implements Handler.Callback,
                                    Global.DEFAULT_LONGITUDE),
                         DEFAULT_ZOOM
                 ));
+        map.setMyLocationEnabled(true);
+    }
 
+    public void showOverlay() {
+        mOverlayBar.setVisibility(View.VISIBLE);
+    }
+
+    public void hideOverlay() {
+        mOverlayBar.setVisibility(View.INVISIBLE);
+    }
+
+    public void mapIsShown() {
+        routeSelected(mCurrentRoute);
     }
 
     private boolean drawWaypoints(Global.WaypointResults result) {
@@ -169,14 +181,6 @@ public class MapController implements Handler.Callback,
         }
 
         return true;
-    }
-
-    public void showOverlay() {
-        mOverlayBar.setVisibility(View.VISIBLE);
-    }
-
-    public void hideOverlay() {
-        mOverlayBar.setVisibility(View.INVISIBLE);
     }
 
     @Override

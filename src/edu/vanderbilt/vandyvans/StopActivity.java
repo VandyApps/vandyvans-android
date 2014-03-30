@@ -15,9 +15,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.inject.Inject;
 import edu.vanderbilt.vandyvans.models.Routes;
+import edu.vanderbilt.vandyvans.services.Global;
 import edu.vanderbilt.vandyvans.services.VandyClients;
 import roboguice.activity.RoboFragmentActivity;
 import roboguice.inject.InjectView;
@@ -40,8 +46,8 @@ public final class StopActivity extends RoboFragmentActivity
      */
     ViewPager mViewPager;
 
-    final Fragment      mStopFragment = new StopsFragment();
-    final SupportMapFragment mMapFrag = new SupportMapFragment();
+    final Fragment     mStopFragment = new StopsFragment();
+    SupportMapFragment mMapFrag;
 
     MapController mapController;
 
@@ -60,6 +66,15 @@ public final class StopActivity extends RoboFragmentActivity
         // Set up the action bar.
         final ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+        mMapFrag = SupportMapFragment.newInstance(
+                new GoogleMapOptions()
+                        .zoomControlsEnabled(false)
+                        .camera(CameraPosition.fromLatLngZoom(
+                                new LatLng(Global.DEFAULT_LATITUDE,
+                                           Global.DEFAULT_LONGITUDE),
+                                MapController.DEFAULT_ZOOM
+                        )));
 
         mapController = new MapController(mMapFrag,
                                           mBar,
@@ -102,15 +117,6 @@ public final class StopActivity extends RoboFragmentActivity
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-
-        // Because of the way Fragments and Views are created, we can't
-        // work with the map until `onResume`
-        mapController.routeSelected(Routes.BLUE);
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.stop, menu);
@@ -146,6 +152,7 @@ public final class StopActivity extends RoboFragmentActivity
             mapController.hideOverlay();
         } else if (tab.getPosition() == 1) {
             mapController.showOverlay();
+            mapController.mapIsShown();
         }
 
         mViewPager.setCurrentItem(tab.getPosition());
