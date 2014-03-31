@@ -31,10 +31,10 @@ import static edu.vanderbilt.vandyvans.services.Global.APP_LOG_ID;
 */
 final class VandyVansClient implements Handler.Callback {
 
-    private static final String LOG_TAG = "VandyVansClient";
-    private static final String BASE_URL = "http://vandyvans.com";
-    private static final String REPORT_URL = "http://studentorgs.vanderbilt.edu/vandymobile/bugReport.php";
-    private static final JsonParser PARSER = new JsonParser();
+    private static final String     LOG_TAG    = "VandyVansClient";
+    private static final String     BASE_URL   = "http://vandyvans.com";
+    private static final String     REPORT_URL = "http://studentorgs.vanderbilt.edu/vandymobile/bugReport.php";
+    private static final JsonParser PARSER     = new JsonParser();
 
     @Override
     public boolean handleMessage(Message msg) {

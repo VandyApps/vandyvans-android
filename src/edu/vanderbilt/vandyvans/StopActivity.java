@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -150,6 +149,7 @@ public final class StopActivity extends RoboFragmentActivity
         // the ViewPager.
         if (tab.getPosition() == 0) {
             mapController.hideOverlay();
+
         } else if (tab.getPosition() == 1) {
             mapController.showOverlay();
             mapController.mapIsShown();

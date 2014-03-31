@@ -11,6 +11,15 @@
             android:layout_height="match_parent"
             tools:context=".StopActivity"/>
 
+    <!--
+    This is a hack.
+    http://stackoverflow.com/a/13910364
+    -->
+    <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent" />
+
     <LinearLayout
             android:id="@+id/linear1"
             android:visibility="invisible"
