@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Message;
@@ -23,6 +24,8 @@ import android.util.Log;
 import com.google.inject.Binder;
 import com.google.inject.Module;
 import com.google.inject.Provider;
+import edu.vanderbilt.vandyvans.R;
+import edu.vanderbilt.vandyvans.models.Routes;
 import roboguice.RoboGuice;
 
 import edu.vanderbilt.vandyvans.models.ArrivalTime;
@@ -49,10 +52,42 @@ public final class Global extends android.app.Application {
 
     private VandyClientsSingleton mClientSingleton;
 
+    private int COLOR_RED;
+    private int COLOR_BLUE;
+    private int COLOR_GREEN;
+    private int COLOR_BLACK;
+
     @Override
     public void onCreate() {
         super.onCreate();
         initializeGlobalState();
+
+        Resources res = getResources();
+        COLOR_BLUE  = res.getColor(R.color.blue_argb);
+        COLOR_RED   = res.getColor(R.color.red_argb);
+        COLOR_GREEN = res.getColor(R.color.green_argb);
+        COLOR_BLACK = res.getColor(android.R.color.black);
+    }
+
+    public int getRed() { return COLOR_RED; }
+
+    public int getBlue() { return COLOR_BLUE; }
+
+    public int getGreen() { return COLOR_GREEN; }
+
+    public int getColorFor(Route route) {
+        if (route == Routes.BLUE)  return COLOR_BLUE;
+        if (route == Routes.RED)   return COLOR_RED;
+        if (route == Routes.GREEN) return COLOR_GREEN;
+        return COLOR_BLACK;
+    }
+
+    public Global setShowSelfLocation(boolean showLocation) {
+        return this;
+    }
+
+    public boolean isShowingLocation() {
+        return true;
     }
 
     /**
@@ -60,7 +95,7 @@ public final class Global extends android.app.Application {
      * for this app is first created. This will initialize the service
      * infrastructure that provide data to the UI.
      */
-    void initializeGlobalState() {
+    private void initializeGlobalState() {
 
         // Intialize the background thread to be used by the services.
         final HandlerThread thread = new HandlerThread("BackgroundThread");
@@ -87,12 +122,20 @@ public final class Global extends android.app.Application {
                                         return mClientSingleton;
                                     }
                                 });
+
+                        binder.bind(Global.class)
+                                .toProvider(new Provider<Global>() {
+                                    @Override
+                                    public Global get() {
+                                        return Global.this;
+                                    }
+                                });
                     }
                 });
 
     }
 
-    static final class VandyClientsSingleton implements VandyClients {
+    private static final class VandyClientsSingleton implements VandyClients {
 
         final Handler vandyVansClient;
         final Handler syncromaticsClient;

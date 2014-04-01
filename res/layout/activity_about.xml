@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@drawable/background"
-              android:orientation="vertical"
-              android:animateLayoutChanges="true"
-              android:padding="16dp">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/background"
+                android:orientation="vertical"
+                android:animateLayoutChanges="true"
+                android:padding="16dp">
 
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
             android:layout_margin="8dp"
             android:alpha="0.9"
             android:background="@color/white"
@@ -35,20 +36,40 @@
                 android:layout_height="wrap_content"
                 android:text="@string/send_feedback"/>
 
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="4dp">
+
+            <!-- Separator -->
+        </View>
+
+        <Button
+                android:id="@+id/button3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/location_setting"/>
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="4dp">
+
+            <!-- Separator -->
+        </View>
+
+        <Button
+                android:id="@+id/button4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/notification_setting"/>
     </LinearLayout>
 
     <LinearLayout
+            android:layout_alignParentBottom="true"
+            android:layout_margin="16dp"
             android:id="@+id/linear1"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-        <View
-                android:layout_width="match_parent"
-                android:layout_height="16dp">
-
-            <!-- Separator -->
-        </View>
 
         <TextView
                 style="@style/about_credits"
@@ -85,4 +106,4 @@
                 android:textStyle="bold"/>
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

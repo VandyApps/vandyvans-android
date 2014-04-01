@@ -40,4 +40,8 @@
     <color name="red">#ff0000</color>
     <color name="green">#00ff00</color>
 
+    <color name="blue_argb">#ff0000ff</color>
+    <color name="red_argb">#ffff0000</color>
+    <color name="green_argb">#ff00ff00</color>
+
 </resources>

@@ -48,6 +48,7 @@ public class MapController implements Handler.Callback,
 
     private final Handler      bridge = new Handler(this);
     private final VandyClients mClients;
+    private final Global       mGlobal;
 
     private final SupportMapFragment mMapFragment;
     private final LinearLayout       mOverlayBar;
@@ -73,7 +74,8 @@ public class MapController implements Handler.Callback,
                          Button             blueBtn,
                          Button             redBtn,
                          Button             greenBtn,
-                         VandyClients       clients) {
+                         VandyClients       clients,
+                         Global             global) {
         if (mapFrag == null) { throw new IllegalStateException("MapFragment is null"); }
         mMapFragment = mapFrag;
 
@@ -87,6 +89,7 @@ public class MapController implements Handler.Callback,
         mGreenButton .setOnClickListener(this);
 
         mClients      = clients;
+        mGlobal       = global;
         mCurrentRoute = Routes.BLUE;
     }
 
@@ -129,6 +132,7 @@ public class MapController implements Handler.Callback,
         }
 
         mCurrentRoute = route;
+        mOverlayBar.setBackgroundColor(mGlobal.getColorFor(mCurrentRoute));
 
         Message.obtain(mClients.vandyVans(), 0,
                        new Global.FetchWaypoints(bridge, route))
@@ -153,21 +157,12 @@ public class MapController implements Handler.Callback,
     @Override
     public void onClick(View view) {
         if (view == mBlueButton) {
-            mOverlayBar.setBackgroundColor(
-                    view.getResources()
-                            .getColor(R.color.blue));
             routeSelected(Routes.BLUE);
 
         } else if (view == mRedButton) {
-            mOverlayBar.setBackgroundColor(
-                    view.getResources()
-                            .getColor(R.color.red));
             routeSelected(Routes.RED);
 
         } else if (view == mGreenButton) {
-            mOverlayBar.setBackgroundColor(
-                    view.getResources()
-                            .getColor(R.color.green));
             routeSelected(Routes.GREEN);
         }
     }
@@ -189,11 +184,14 @@ public class MapController implements Handler.Callback,
         if (map == null) { return true; }
 
         PolylineOptions polyline = new PolylineOptions();
-        polyline.color(
-                (mCurrentRoute == Routes.BLUE)  ? 0xff0000ff :
-                (mCurrentRoute == Routes.RED)   ? 0xffff0000 :
-                (mCurrentRoute == Routes.GREEN) ? 0xff00ff00 :
-                0xff000000);
+
+        polyline.color(mGlobal.getColorFor(mCurrentRoute));
+
+        //polyline.color(
+        //        (mCurrentRoute == Routes.BLUE)  ? 0xff0000ff :
+        //        (mCurrentRoute == Routes.RED)   ? 0xffff0000 :
+         //       (mCurrentRoute == Routes.GREEN) ? 0xff00ff00 :
+        //       0xff000000);
         polyline.width(DEFAULT_WIDTH);
 
         for (FloatPair point : result.waypoints) {

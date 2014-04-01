@@ -3,9 +3,6 @@
 
     <string name="app_name">Vandy Vans</string>
     <string name="action_settings">Settings</string>
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
     
     <string name="blank">lorem</string>
     
@@ -22,7 +19,9 @@
     <string name="about">About</string>
     <string name="report_bug">Report a Bug</string>
     <string name="send_feedback">Send Feedback</string>
-    <string name="attribution">Attribution</string>
+    <string name="location_setting">Location Settings</string>
+    <string name="notification_setting">Notification Settings</string>
+
     <string name="email_hint">your email address</string>
     <string name="bugreport_hint">describe the bug</string>
     <string name="feedback_hint">feedback about the application</string>

@@ -55,6 +55,7 @@ public final class StopActivity extends RoboFragmentActivity
     @InjectView(R.id.btn_green) Button       mGreenButton;
 
     @Inject VandyClients clients;
+    @Inject Global       globals;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +81,8 @@ public final class StopActivity extends RoboFragmentActivity
                                           mBlueButton,
                                           mRedButton,
                                           mGreenButton,
-                                          clients);
+                                          clients,
+                                          globals);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the app.
