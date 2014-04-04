@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/background"
+                android:orientation="vertical"
+                android:animateLayoutChanges="true"
+                android:padding="16dp">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_margin="8dp"
+            android:alpha="0.9"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+        <Button
+                android:id="@+id/button1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/report_bug"/>
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="4dp">
+
+            <!-- Separator -->
+        </View>
+
+        <Button
+                android:id="@+id/button2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/send_feedback"/>
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="4dp">
+
+            <!-- Separator -->
+        </View>
+
+        <Button
+                android:id="@+id/button3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/location_setting"/>
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="4dp">
+
+            <!-- Separator -->
+        </View>
+
+        <Button
+                android:id="@+id/button4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/notification_setting"/>
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_alignParentBottom="true"
+            android:layout_margin="16dp"
+            android:id="@+id/linear1"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <TextView
+                style="@style/about_credits"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/created_by"/>
+
+        <TextView
+                style="@style/about_credits"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Green Lantern"
+                android:textStyle="bold"/>
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="16dp">
+
+            <!-- Separator -->
+        </View>
+
+        <TextView
+                android:id="@+id/textView2"
+                style="@style/about_credits"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/graphics_design"/>
+
+        <TextView
+                style="@style/about_credits"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Batman"
+                android:textStyle="bold"/>
+    </LinearLayout>
+
+</RelativeLayout>

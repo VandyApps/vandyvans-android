@@ -1,6 +1,60 @@
-<android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/pager"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".StopActivity" />
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:animateLayoutChanges="true"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+
+    <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".StopActivity"/>
+
+    <!--
+    This is a hack.
+    http://stackoverflow.com/a/13910364
+    -->
+    <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent" />
+
+    <LinearLayout
+            android:id="@+id/linear1"
+            android:visibility="invisible"
+            style="@android:attr/buttonBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:alpha="0.8"
+            android:background="#0000ff"
+            android:orientation="horizontal"
+            android:padding="4dp">
+
+        <Button
+                android:id="@+id/btn_blue"
+                style="@android:attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="33"
+                android:text="@string/route_blue"/>
+
+        <Button
+                android:id="@+id/btn_red"
+                style="@android:attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="33"
+                android:text="@string/route_red"/>
+
+        <Button
+                android:id="@+id/btn_green"
+                style="@android:attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="33"
+                android:text="@string/route_green"/>
+    </LinearLayout>
+
+</RelativeLayout>

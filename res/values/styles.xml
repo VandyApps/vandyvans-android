@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
@@ -16,5 +16,32 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
+
+    <style name="detail_page_route_label">
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="detail_page_time_label">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@android:color/darker_gray</item>
+    </style>
+
+    <style name="about_credits">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:gravity">center_horizontal</item>
+    </style>
+
+    <color name="light_gold">#ffffdc</color>
+    <color name="white">#ffffff</color>
+    <color name="dark_gold">#B69000</color>
+
+    <color name="blue">#0000ff</color>
+    <color name="red">#ff0000</color>
+    <color name="green">#00ff00</color>
+
+    <color name="blue_argb">#ff0000ff</color>
+    <color name="red_argb">#ffff0000</color>
+    <color name="green_argb">#ff00ff00</color>
 
 </resources>
